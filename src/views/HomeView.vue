@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>home</h1>
+	<p>Jesteś zalogowany jako {{login}}</p>
+	
+	
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+
 
 export default {
   name: 'HomeView',
-  components: {
-    HelloWorld
+  props: ['login'],
+
+  data(){
+
+	  return{
+
+		  login: this.$route.params.login,
+	  }
+
   }
+  
+
+  
 }
 </script>
