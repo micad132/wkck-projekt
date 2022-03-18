@@ -1,0 +1,19 @@
+
+
+
+
+
+.light-theme{
+
+	--background-main: #3AAFA9;
+	--theme-button-border: #17252A;
+
+}
+
+.dark-theme{
+
+	--background-main: #17252A;
+	--theme-button-border: #fff;
+
+}
+

@@ -5,7 +5,7 @@
 		<router-link to="/about">Login</router-link>
 		<router-link to="/help">Help</router-link>
 	</nav>
-	<button @click="changeTheme" class="theme">motyw</button>
+	<button @click="changeTheme()" class="theme">motyw</button>
   </header>
   <router-view/>
 </template>
@@ -13,30 +13,69 @@
 
 <script>
 export default {
+
+
+
+	mounted(){
+
+		if(localStorage.getItem('theme') === 'dark-theme')
+		{
+			this.setTheme('dark-theme');
+		}
+		else
+		{
+			this.setTheme('light-theme');
+		}
+	},
 	
 	methods: {
 
-
 		changeTheme(){
 
-			let view = document.getElementById('app');
-			view.classList.toggle('darktheme');
+			if(localStorage.getItem('theme') === 'dark-theme')
+			{
+				this.setTheme('light-theme');
+			}
+			else
+			{
+				this.setTheme('dark-theme');
+			}
 			
-		}
+		},
+
+		setTheme(themeName){
+
+			localStorage.setItem('theme', themeName);
+    		document.documentElement.className = themeName;
+
+		},
 
 
 	}
+
+	
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
 
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import 'styles/variables';
+  
+   
 
 	*{
 		box-sizing: border-box;
 		margin: 0;
 		padding: 0;
+		font-family: 'Montserrat', sans-serif;
 	}
+
+	 
+
+
+
 
 
 	button{
@@ -51,14 +90,12 @@ export default {
   color: #2c3e50;
   height: 100vh;
   width: 100vw;
-  background-image: linear-gradient(45deg,#B6C1D4,#EC68B1);
+  
+  
+  background-color: var(--background-main);
 }
 
- #app.darktheme{
 
-
-	 background-image: linear-gradient(45deg,#484C91,#929BEF);
- }
 
 header{
 
@@ -66,13 +103,17 @@ header{
 	width: 300px;
 	margin-left: auto;
 	margin-bottom: 20px;
+
+}
 	
 
 	nav {
 	padding: 30px;
+
+	}
 	
 
-	a {
+	nav a {
 		font-weight: bold;
 		font-size: 20px;
 		color: #2c3e50;
@@ -80,38 +121,57 @@ header{
 		margin-right: 20px;
 		
 
-		&.router-link-exact-active {
+		
+
+		
+	}
+	
+
+	nav a.router-link-exact-active{
+
 		color: #fff;
-		}
-
-		&:hover{
-
-			color: #fff;
-		}
 	}
+
+	nav a:hover{
+
+		color: #fff;
 	}
+
 
 	.theme{
 		
 		padding: 10px 30px;
-		border: 2px solid #F5C1EA;
-		border-radius: 30px;
+		border: 3px solid var(--theme-button-border);
+		border-radius: 5px;
 		font-weight: bold;
 		text-transform: uppercase;
 		transition: 300ms all;
-		background-color: #F5C1EA;
+		background-color: #17252A;
+		background-color: transparent;
+		color: #fff;
+		letter-spacing: 2px;
 		
 
-		&:hover{
-
-			background-color: #42b983;
-			border: 2px solid #42b983;
-			color: #fff;
-			
-		}
+		
 	}
 
-}
+	.theme:hover{
+
+		background-color: #fff;
+		border: 3px solid #fff;
+		color: #17252A;
+	}
+
+
+
+#app.darktheme{
+
+
+	 
+	 
+	 
+ }
+
 
 
 </style>
