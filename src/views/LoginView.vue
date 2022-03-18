@@ -92,11 +92,21 @@ export default {
 			margin-top: 10px;
 			padding: 10px 50px;
 			border: 0;
+			border: 2px solid #e996b6;
 			border-radius: 20px;
 			font-weight: bold;
 			background-color: #e996b6;
 			color: rgba(255, 255, 255, 0.788);
 			text-transform: uppercase;
+			transition: 300ms all;
+			outline-color: #e996b6;
+
+			&:hover{
+
+			background-color: #42b983;
+			border: 2px solid #42b983;
+			color: #fff;
+		}
 		}
 	}
 

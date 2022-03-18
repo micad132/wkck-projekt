@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>home</h1>
-	<p>Jesteś zalogowany jako {{login}}</p>
+	<p v-if="login">Jesteś zalogowany jako {{login}}</p>
 	
 	
   </div>

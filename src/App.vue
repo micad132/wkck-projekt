@@ -81,7 +81,7 @@ header{
 		
 
 		&.router-link-exact-active {
-		color: #42b983;
+		color: #fff;
 		}
 
 		&:hover{
@@ -94,10 +94,21 @@ header{
 	.theme{
 		
 		padding: 10px 30px;
-		border: 2px solid black;
-		border-radius: 20px;
+		border: 2px solid #F5C1EA;
+		border-radius: 30px;
 		font-weight: bold;
 		text-transform: uppercase;
+		transition: 300ms all;
+		background-color: #F5C1EA;
+		
+
+		&:hover{
+
+			background-color: #42b983;
+			border: 2px solid #42b983;
+			color: #fff;
+			
+		}
 	}
 
 }
