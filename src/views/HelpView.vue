@@ -36,12 +36,20 @@ export default {
 
 	.wrapper{
 		
-		background-image: linear-gradient(45deg,#C3A8EE,#F5C1EA);
+		background-color: transparent;
 		margin: 0 auto;
 		width: 70%;
 		max-width: 1200px;
 		padding: 40px;
 		border-radius: 20px;
+		border: 3px solid var(--theme-button-border);
+
+
+		h1{
+
+			color: var(--theme-help-font-color);
+
+		}
 
 		ul{
 
@@ -50,6 +58,8 @@ export default {
 				margin-top: 20px;
 				font-size: 20px;
 				text-align: justify;
+				color: var(--theme-help-font-color);
+				font-weight: 600;
 			}
 		}
 

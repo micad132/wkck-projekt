@@ -37,7 +37,7 @@ export default {
 			
 			if(name)
 			{
-				console.log(name);
+				
 				
 				this.$router.push({name: 'home', params: {login: name}});
 			}
@@ -56,12 +56,13 @@ export default {
 
 	h1{
 		margin-bottom: 20px;
+		color: var(--theme-font-color);
 	}
 
 	.wrapper{
 
-		background-image: linear-gradient(45deg,#C3A8EE,#F5C1EA);
-		border-radius: 20px;
+		//background-image: linear-gradient(45deg,#C3A8EE,#F5C1EA);
+		border-radius: 10px;
 		margin: 0 auto;
 		width: 70%;
 		max-width: 1200px;
@@ -69,11 +70,14 @@ export default {
 		flex-direction: column;
 		padding: 40px;
 		align-items: center;
+		background-color: transparent;
+		border: 3px solid var(--theme-button-border);
 
 		
 		label{
 
 			font-weight: bold;
+			color: var(--theme-font-color);
 
 		}
 
@@ -92,20 +96,20 @@ export default {
 			margin-top: 10px;
 			padding: 10px 50px;
 			border: 0;
-			border: 2px solid #e996b6;
+			border: 3px solid var(--theme-button-border);
 			border-radius: 20px;
 			font-weight: bold;
-			background-color: #e996b6;
-			color: rgba(255, 255, 255, 0.788);
+			background-color: transparent;
+			color: var(--theme-font-color);
 			text-transform: uppercase;
 			transition: 300ms all;
 			outline-color: #e996b6;
 
 			&:hover{
 
-			background-color: #42b983;
-			border: 2px solid #42b983;
-			color: #fff;
+			background-color: var(--theme-hover-button-color);
+			border: 3px solid var(--theme-hover-button-color);
+			color: var(--theme-hover-button-text);
 		}
 		}
 	}

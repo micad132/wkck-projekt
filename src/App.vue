@@ -116,7 +116,7 @@ header{
 	nav a {
 		font-weight: bold;
 		font-size: 20px;
-		color: #2c3e50;
+		color: #0d1518;
 		text-decoration: none;
 		margin-right: 20px;
 		
@@ -157,20 +157,14 @@ header{
 
 	.theme:hover{
 
-		background-color: #fff;
-		border: 3px solid #fff;
-		color: #17252A;
+		background-color: var(--theme-hover-button-color);
+		border: 3px solid var(--theme-hover-button-color);
+		color: var(--theme-hover-button-text);
 	}
 
 
 
-#app.darktheme{
-
-
-	 
-	 
-	 
- }
+	
 
 
 
