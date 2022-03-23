@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>home</h1>
-	<p v-if="login">Jesteś zalogowany jako {{login}}</p>
+	<p v-show="login">Jesteś zalogowany jako {{login}}</p>
 	
 	
   </div>
@@ -13,7 +13,7 @@
 
 export default {
   name: 'HomeView',
-  props: ['login'],
+  
 
   data(){
 

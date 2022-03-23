@@ -8,7 +8,7 @@
 	  <input v-model="loginName" type="text">
 	  <label>Hasło:</label>
 	  <input type="password">
-	  <button @click="submitForm(loginName)">Zaloguj</button>
+	  <button @click="submitForm($event,loginName)">Zaloguj</button>
 
   </form>
 </template>
@@ -31,10 +31,10 @@ export default {
 	
 	methods: {
 
-		submitForm(name){
+		submitForm(event,name){
 
 
-			
+			event.preventDefault();
 			if(name)
 			{
 				
