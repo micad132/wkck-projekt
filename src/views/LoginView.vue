@@ -71,7 +71,7 @@ export default {
 		padding: 40px;
 		align-items: center;
 		background-color: transparent;
-		border: 3px solid var(--theme-button-border);
+		//border: 3px solid var(--theme-button-border);
 
 		
 		label{
@@ -83,12 +83,22 @@ export default {
 
 		input{
 
-			width: 50%;
-			border: 0;
-			border-radius: 10px;
+			width: 30%;
+			border: 3px solid var(--theme-button-border);
+			background-color: transparent;
 			padding: 10px;
 			outline: 0;
 			margin: 10px 0;
+			transition: 300ms all ease-in-out;
+			color: #fff;
+
+			&:focus{
+				
+				//background-color: var(--theme-hover-button-color);
+				//border: 5px solid var(--theme-hover-button-color);
+				width: 35%;
+				color: #fff;
+			}
 		}
 
 		button{
@@ -97,7 +107,7 @@ export default {
 			padding: 10px 50px;
 			border: 0;
 			border: 3px solid var(--theme-button-border);
-			border-radius: 20px;
+			
 			font-weight: bold;
 			background-color: transparent;
 			color: var(--theme-font-color);
@@ -105,11 +115,14 @@ export default {
 			transition: 300ms all;
 			outline-color: #e996b6;
 
-			&:hover{
+			&:hover, &:focus{
 
 			background-color: var(--theme-hover-button-color);
 			border: 3px solid var(--theme-hover-button-color);
 			color: var(--theme-hover-button-text);
+			outline: 0;
+
+			
 		}
 		}
 	}
