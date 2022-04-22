@@ -1,0 +1,83 @@
+<template>
+  <div class="taskWrapper__tasks__task">
+    <p class="taskWrapper__tasks__task__name">{{taskName}}</p>
+    <div class="taskWrapper__tasks__task__buttons">
+      <button class="taskWrapper__tasks__task__buttons__button done"><fa class="icon" icon="check"/></button>
+      <button class="taskWrapper__tasks__task__buttons__button cancel"><fa class="icon" icon="xmark"/></button>
+      <button class="taskWrapper__tasks__task__buttons__button help"><fa class="icon" icon="bell"/></button>
+      <button class="taskWrapper__tasks__task__buttons__button important"><fa class="icon" icon="circle-exclamation"/></button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  setup() {},
+  props: ['taskName'],
+};
+</script>
+
+<style lang="scss" scoped>
+.taskWrapper__tasks__task {
+  
+  display: flex;
+  padding: 1.4rem 1rem;
+
+  & > *{
+	  padding: .7rem 0;
+  }
+
+  &__name{
+	  flex-basis: 50%;
+	  border: 3px solid var(--theme-button-border);
+	  text-align: left;
+	  padding-left: 1rem;
+	  display: flex;
+	  align-items: center;
+	  font-size: 1.6rem;
+  }
+
+  &__buttons{
+	  flex: 1;
+	  display: flex;
+	  justify-content: space-evenly;
+	  
+
+	  &__button{
+		  width: 20%;
+		  padding: 1rem;
+		  background-color: transparent;
+		  border: 0;
+		  outline: 0;
+		  border: 3px solid var(--theme-button-border);
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  transition: 200ms all ease-in-out;
+
+		  .icon{
+			  font-size: 1.6rem;
+		  }
+
+		  &.done:hover{
+			  background-color: var(--theme-hover-button-color);
+			  color: green;
+		  }
+		  &.cancel:hover{
+			  background-color: var(--theme-hover-button-color);
+			  color: red;
+		  }
+		  &.help:hover{
+			  background-color: var(--theme-hover-button-color);
+			  color: yellow;
+		  }
+		  &.important:hover{
+			  background-color: var(--theme-hover-button-color);
+			  color: rgb(212, 141, 9);
+		  }
+
+		  
+	  }
+  }
+}
+</style>
