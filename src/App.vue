@@ -1,13 +1,15 @@
 <template>
-  <header>
-    <nav>
-      <router-link to="/">Home</router-link>
-      <router-link to="/about">Login</router-link>
-      <router-link to="/help">Help</router-link>
-    </nav>
-    <button @click="changeTheme()" class="theme">motyw</button>
-  </header>
-  <router-view />
+  <div class="wrapper">
+    <header>
+      <nav>
+        <router-link to="/">Home</router-link>
+        <router-link to="/about">Login</router-link>
+        <router-link to="/help">Help</router-link>
+      </nav>
+      <button @click="changeTheme()" class="theme">motyw</button>
+    </header>
+    <router-view class="content" />
+  </div>
 </template>
 
 <script>
@@ -48,6 +50,8 @@ export default {
   font-family: "Montserrat", sans-serif;
 }
 
+
+
 button {
   cursor: pointer;
 }
@@ -61,13 +65,17 @@ button {
   min-height: 100vh;
   transition: 300ms all ease-in-out;
   background-color: var(--background-main);
+  overflow: hidden;
 }
 
 header {
   width: 300px;
   margin-left: auto;
   margin-bottom: 20px;
+  
+  
 }
+
 
 nav {
   padding: 30px;
@@ -76,21 +84,21 @@ nav {
 nav a {
   font-weight: bold;
   font-size: 20px;
-  color: #0d1518;
+  color: var(--theme-font-color);
   text-decoration: none;
   margin-right: 20px;
 }
 
 nav a.router-link-exact-active {
-  color: #fff;
+  color: lime;
 }
 
 nav a:hover {
-  color: #fff;
+  color: red;
 }
 
 .theme {
-  padding: 10px 30px;
+  padding: 1rem 3rem;
   border: 3px solid var(--theme-button-border);
 
   font-weight: bold;
@@ -100,6 +108,7 @@ nav a:hover {
   background-color: transparent;
   color: #fff;
   letter-spacing: 2px;
+  font-size: 1em;
 }
 
 .theme:hover {
@@ -107,4 +116,9 @@ nav a:hover {
   border: 3px solid var(--theme-hover-button-color);
   color: var(--theme-hover-button-text);
 }
+
+
+
+
+
 </style>

@@ -21,11 +21,11 @@ export default {
 .taskWrapper__tasks__task {
   
   display: flex;
-  padding: 1.4rem 1rem;
+  height: 70px;
+  padding: 0 1rem;
+  margin-top: 1rem;
 
-  & > *{
-	  padding: .7rem 0;
-  }
+  
 
   &__name{
 	  flex-basis: 50%;
@@ -35,16 +35,20 @@ export default {
 	  display: flex;
 	  align-items: center;
 	  font-size: 1.6rem;
+	  color: var(--theme-font-color);
   }
 
   &__buttons{
 	  flex: 1;
 	  display: flex;
 	  justify-content: space-evenly;
+	  height: 100%;
+	  
 	  
 
 	  &__button{
 		  width: 20%;
+		  height: 100%;
 		  padding: 1rem;
 		  background-color: transparent;
 		  border: 0;
@@ -54,9 +58,11 @@ export default {
 		  align-items: center;
 		  justify-content: center;
 		  transition: 200ms all ease-in-out;
+		
 
 		  .icon{
 			  font-size: 1.6rem;
+			//   color: var(--theme-font-color);
 		  }
 
 		  &.done:hover{
