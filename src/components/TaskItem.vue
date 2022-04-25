@@ -1,18 +1,39 @@
 <template>
   <div class="taskWrapper__tasks__task">
-    <p class="taskWrapper__tasks__task__name">{{taskName}}</p>
+    <p ref="taskText" class="taskWrapper__tasks__task__name">{{taskName}}</p>
     <div class="taskWrapper__tasks__task__buttons">
-      <button class="taskWrapper__tasks__task__buttons__button done"><fa class="icon" icon="check"/></button>
+      <button ref="doneButton" @click="setDone()" class="taskWrapper__tasks__task__buttons__button done"><fa class="icon" icon="check"/></button>
       <button class="taskWrapper__tasks__task__buttons__button cancel"><fa class="icon" icon="xmark"/></button>
-      <button class="taskWrapper__tasks__task__buttons__button help"><fa class="icon" icon="bell"/></button>
-      <button class="taskWrapper__tasks__task__buttons__button important"><fa class="icon" icon="circle-exclamation"/></button>
+      <button  ref="helpButton" @click="setHelp()" class="taskWrapper__tasks__task__buttons__button help"><fa class="icon" icon="bell"/></button>
+      <button ref="importantButton" @click="setImportant()" class="taskWrapper__tasks__task__buttons__button important"><fa class="icon" icon="circle-exclamation"/></button>
     </div>
   </div>
 </template>
 
 <script>
+import {ref} from 'vue';
 export default {
-  setup() {},
+  setup() {
+
+	  const helpButton = ref(null);
+	  const importantButton = ref(null);
+	  const doneButton = ref(null);
+	  const taskText = ref(null);
+	  const setHelp = () => {
+		  helpButton.value.style = "background-color: var(--theme-hover-button-color); color: yellow;"
+	  };
+	  const setImportant = () => {
+		  importantButton.value.style = "background-color: var(--theme-hover-button-color); color: rgb(212, 141, 9);"
+	  }
+	  const setDone = () => {
+		  doneButton.value.style = "background-color: var(--theme-hover-button-color); color: green;"
+		  taskText.value.style = "text-decoration-line: line-through;text-decoration-color: #fff;"
+
+	  }
+	  return{
+		  helpButton,importantButton,setHelp,setImportant,doneButton,setDone,taskText
+	  };
+  },
   props: ['taskName'],
 };
 </script>
@@ -84,6 +105,17 @@ export default {
 
 		  
 	  }
+  }
+
+  &.marked{
+
+	 
+		  
+		  & > *{
+			  text-decoration-line: line-through;
+			  text-decoration-color: #fff;
+		  }
+	  
   }
 }
 </style>

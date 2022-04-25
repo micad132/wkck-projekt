@@ -27,6 +27,8 @@
       </div>
       <div class="taskWrapper__tasks">
         <TaskItem
+          v-bind:class="{ marked: isActive }"
+          ref="item"
           v-for="(task, index) in taskList"
           :key="index"
           :taskName="task"
@@ -34,8 +36,12 @@
       </div>
     </div>
     <div v-if="ifButtons" class="wrapper__buttons">
-      <button class="wrapper__buttons__button">odznacz wszystko</button>
-      <button class="wrapper__buttons__button">usuń wszystko</button>
+      <button @click="markTasks()" class="wrapper__buttons__button">
+        odznacz wszystko
+      </button>
+      <button @click="deleteTasks()" class="wrapper__buttons__button">
+        usuń wszystko
+      </button>
     </div>
   </div>
 </template>
@@ -44,25 +50,39 @@
 import TaskItem from "./TaskItem.vue";
 import { ref, watch } from "vue";
 import Toast from "vue-toastification";
- import { useToast } from "vue-toastification";
+import { useToast } from "vue-toastification";
 export default {
   components: { TaskItem },
   setup(props, context) {
-	  const toast = useToast();
+    const toast = useToast();
     const ifButtons = ref(false);
     const taskList = ref([]);
+    const isActive = ref(false);
     const inputValue = ref(null);
+    const item = ref(null);
     const addTask = () => {
       let listItem = inputValue.value.value;
       if (listItem.length < 5 || listItem.length > 20) {
+        toast.error("Wrong task name!", {
+          timeout: 2000,
+        });
         return;
       }
       taskList.value.push(listItem);
       inputValue.value.value = "";
       context.emit("addTask", taskList.value.length);
-	  toast.success("Task added", {
-        timeout: 2000
+      toast.success("Task added", {
+        timeout: 2000,
       });
+      isActive.value = false;
+    };
+
+    const deleteTasks = () => {
+      taskList.value = [];
+    };
+
+    const markTasks = () => {
+      isActive.value = true;
     };
 
     watch(taskList.value, () => {
@@ -71,7 +91,17 @@ export default {
       }
     });
 
-    return { taskList, inputValue, addTask, ifButtons,toast };
+    return {
+      taskList,
+      inputValue,
+      addTask,
+      ifButtons,
+      toast,
+      deleteTasks,
+      markTasks,
+      isActive,
+      item,
+    };
   },
 };
 </script>
@@ -83,11 +113,10 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   padding: 1rem 0;
-  
+
   .taskWrapper {
     height: 100%;
     width: 100%;
-    
 
     &__mainoperations {
       display: flex;
@@ -115,7 +144,7 @@ export default {
           font-size: 1.2rem;
           font-weight: bold;
           transition: 200ms all ease-in-out;
-		  color: var(--theme-font-color);
+          color: var(--theme-font-color);
 
           &:hover {
             background-color: var(--theme-hover-button-color);
@@ -126,14 +155,16 @@ export default {
     }
     &__tasks {
       width: 100%;
-      
+
       height: 80%;
       overflow: hidden;
       overflow-y: auto;
-	  
-      //   border: 3px solid var(--theme-button-border);
 
-	  
+      &.marked {
+        font-size: 5rem;
+      }
+
+      //   border: 3px solid var(--theme-button-border);
     }
   }
 
@@ -151,9 +182,9 @@ export default {
       font-size: 1.4rem;
       transition: 200ms all ease-in-out;
       text-transform: uppercase;
-	  background-color: transparent;
-	  font-weight:bold;
-	  color: var(--theme-font-color);
+      background-color: transparent;
+      font-weight: bold;
+      color: var(--theme-font-color);
 
       &:hover {
         background-color: var(--theme-hover-button-color);
