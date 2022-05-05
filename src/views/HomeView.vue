@@ -32,7 +32,9 @@ export default {
 		  taskAmount.value = val;
 	  }
 
-	  watch()
+	  watch(taskAmount, ()=> {
+
+	  })
 	 
 
 	  return{taskAmount,addTask}

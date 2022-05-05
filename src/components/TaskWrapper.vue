@@ -19,11 +19,12 @@
           <select
             name="taskWrapper__mainoperations__buttons__select"
             class="taskWrapper__mainoperations__buttons__button select"
-			@change="changeList()"
+			@change="changeList($event)"
+			v-model="selectValue"
 			
           >
-            <option value="taskList">WSZYSTKIE</option>
-            <option value="filteredTaskList">WAŻNE</option>
+            <option value="all">WSZYSTKIE</option>
+            <option value="important">WAŻNE</option>
           </select>
         </div>
       </div>
@@ -62,6 +63,7 @@ export default {
     const toast = useToast();
     const ifButtons = ref(false);
     const taskList = ref([]);
+	const copyofTaskList = ref([]);
     const isActive = ref(false);
     const inputValue = ref(null);
     const item = ref(null);
@@ -85,6 +87,7 @@ export default {
       });
       isActive.value = false;
 	  ++taskId;
+	  copyofTaskList.value = [...taskList.value];
     };
 
     const deleteTasks = () => {
@@ -98,8 +101,14 @@ export default {
 	  console.log(filteredTaskList);
     };
 
-	const changeList = () => {
-		console.log()
+	const changeList = (event) => {
+		console.log(event.target.value);
+		if(event.target.value == 'important'){
+			taskList.value = filteredTaskList();
+		}
+		else{
+			taskList.value = copyofTaskList.value;
+		}
 	}
 
     watch(taskList.value, () => {
@@ -112,11 +121,13 @@ export default {
 	  }
     });
 
-	const filteredTaskList = computed(()=> {
+	const filteredTaskList = () => {
 
 		return taskList.value.filter(task => task.important == true);
 		
-	})
+	}
+
+	
 
     return {
       taskList,
@@ -128,7 +139,9 @@ export default {
       markTasks,
       isActive,
       item,
-	  filteredTaskList
+	  filteredTaskList,
+	  changeList,
+	  copyofTaskList
     };
   },
 };

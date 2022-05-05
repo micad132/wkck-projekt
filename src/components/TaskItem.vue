@@ -103,7 +103,7 @@ export default {
     };
     const setImportant = () => {
       isImportant.value = !isImportant.value;
-	  props.taskItem.important = true;
+	  props.taskItem.important = !props.taskItem.important;
     };
     const setDone = () => {
       isDone.value = !isDone.value;
