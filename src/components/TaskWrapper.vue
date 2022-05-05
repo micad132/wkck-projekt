@@ -12,7 +12,7 @@
         <div class="taskWrapper__mainoperations__buttons">
           <button
             class="taskWrapper__mainoperations__buttons__button"
-            @click="addTask()"
+            @click="addTask"
           >
             Add task
           </button>
@@ -32,6 +32,7 @@
           v-for="(task, index) in taskList"
           :key="index"
           :taskName="task"
+		  :id="siema"
         />
       </div>
     </div>
@@ -70,7 +71,7 @@ export default {
       }
       taskList.value.push(listItem);
       inputValue.value.value = "";
-      context.emit("addTask", taskList.value.length);
+      context.emit("size", taskList.value.length);
       toast.success("Task added", {
         timeout: 2000,
       });
@@ -78,11 +79,12 @@ export default {
     };
 
     const deleteTasks = () => {
-      taskList.value = [];
+      taskList.value  = [];
+	  context.emit("size", taskList.value.length);
     };
 
     const markTasks = () => {
-      isActive.value = true;
+      isActive.value = !isActive.value;
     };
 
     watch(taskList.value, () => {
