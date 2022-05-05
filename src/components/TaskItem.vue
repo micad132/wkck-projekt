@@ -1,121 +1,211 @@
 <template>
   <div class="taskWrapper__tasks__task">
-    <p ref="taskText" class="taskWrapper__tasks__task__name">{{taskName}}</p>
+    <p
+      ref="taskText"
+      :class="[
+        isTaskNameChecked ? 'checked' : '',
+        'taskWrapper__tasks__task__name',
+      ]"
+    >
+      {{taskItem.name}} {{taskItem.id}}
+    </p>
     <div class="taskWrapper__tasks__task__buttons">
-      <button ref="doneButton" @click="setDone()" class="taskWrapper__tasks__task__buttons__button done"><fa class="icon" icon="check"/></button>
-      <button class="taskWrapper__tasks__task__buttons__button cancel"><fa class="icon" icon="xmark"/></button>
-      <button  ref="helpButton" @click="setHelp()" class="taskWrapper__tasks__task__buttons__button help"><fa class="icon" icon="bell"/></button>
-      <button ref="importantButton" @click="setImportant()" class="taskWrapper__tasks__task__buttons__button important"><fa class="icon" icon="circle-exclamation"/></button>
+      <button
+        ref="doneButton"
+        @click="setDone()"
+        :class="[
+          isDone ? 'doneClicked' : '',
+          'taskWrapper__tasks__task__buttons__button done',
+        ]"
+      >
+        <fa class="icon" icon="check" />
+      </button>
+      <button
+        @click="showModal = true"
+        class="taskWrapper__tasks__task__buttons__button cancel"
+      >
+        <fa class="icon" icon="xmark" />
+      </button>
+      <button
+        ref="helpButton"
+        @click="setHelp()"
+        :class="[
+          isHelp ? 'helpClicked' : '',
+          'taskWrapper__tasks__task__buttons__button help',
+        ]"
+      >
+        <fa class="icon" icon="bell" />
+      </button>
+      <button
+        ref="importantButton"
+        @click="setImportant()"
+        :class="[
+          isImportant ? 'importantClicked' : '',
+          'taskWrapper__tasks__task__buttons__button important',
+        ]"
+      >
+        <fa class="icon" icon="circle-exclamation" />
+      </button>
     </div>
+    <n-modal
+      v-model:show="showModal"
+      preset="dialog"
+      title="Usunięcie"
+      content="Czy chcesz usunąć to zadanie?"
+      positive-text="Usuń"
+      negative-text="Anuluj"
+      @positive-click="submitCallback"
+      @negative-click="cancelCallback"
+    />
   </div>
 </template>
 
 <script>
-import {ref} from 'vue';
+import { ref,onMounted } from "vue";
+import { NModal } from "naive-ui";
 export default {
-  setup() {
 
-	  const helpButton = ref(null);
-	  const importantButton = ref(null);
-	  const doneButton = ref(null);
-	  const taskText = ref(null);
-	  const setHelp = () => {
-		  helpButton.value.style = "background-color: var(--theme-hover-button-color); color: yellow;"
-	  };
-	  const setImportant = () => {
-		  importantButton.value.style = "background-color: var(--theme-hover-button-color); color: rgb(212, 141, 9);"
-	  }
-	  const setDone = () => {
-		  doneButton.value.style = "background-color: var(--theme-hover-button-color); color: green;"
-		  taskText.value.style = "text-decoration-line: line-through;text-decoration-color: #fff;"
+	props: ['taskItem','taskList'],
+  setup(props) {
+    
+    const showModal = ref(false);
+    const helpButton = ref(null);
+    const importantButton = ref(null);
+    const doneButton = ref(null);
+    const taskText = ref(null);
+    const isImportant = ref(null);
+    const isDone = ref(null);
+    const isHelp = ref(null);
+    const isTaskNameChecked = ref(null);
 
-	  }
-	  return{
-		  helpButton,importantButton,setHelp,setImportant,doneButton,setDone,taskText
-	  };
+	onMounted(()=> {
+
+		console.log(props.taskItem);
+		console.log(props.taskList);
+	})
+
+    const cancelCallback = () => {
+
+		
+	};
+
+    const submitCallback = () => {
+
+		let deletingId = props.taskItem.id;
+		console.log(props.taskItem);
+		props.taskList.splice(deletingId,1);
+		
+		
+	};
+
+    const setHelp = () => {
+      isHelp.value = !isHelp.value;
+    };
+    const setImportant = () => {
+      isImportant.value = !isImportant.value;
+	  props.taskItem.important = true;
+    };
+    const setDone = () => {
+      isDone.value = !isDone.value;
+      isTaskNameChecked.value = !isTaskNameChecked.value;
+    };
+    return {
+      helpButton,
+      importantButton,
+      setHelp,
+      setImportant,
+      doneButton,
+      setDone,
+      taskText,
+      isImportant,
+      isDone,
+      isHelp,
+      isTaskNameChecked,
+      showModal,
+      NModal,
+	  cancelCallback,
+	  submitCallback,
+	  
+    };
   },
-  props: ['taskName'],
+  
 };
 </script>
 
 <style lang="scss" scoped>
 .taskWrapper__tasks__task {
-  
   display: flex;
   height: 70px;
   padding: 0 1rem;
   margin-top: 1rem;
 
-  
+  &__name {
+    flex-basis: 50%;
+    border: 3px solid var(--theme-button-border);
+    text-align: left;
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    color: var(--theme-font-color);
 
-  &__name{
-	  flex-basis: 50%;
-	  border: 3px solid var(--theme-button-border);
-	  text-align: left;
-	  padding-left: 1rem;
-	  display: flex;
-	  align-items: center;
-	  font-size: 1.6rem;
-	  color: var(--theme-font-color);
+    &.checked {
+      text-decoration-line: line-through;
+      text-decoration-color: #fff;
+    }
   }
 
-  &__buttons{
-	  flex: 1;
-	  display: flex;
-	  justify-content: space-evenly;
-	  height: 100%;
-	  
-	  
+  &__buttons {
+    flex: 1;
+    display: flex;
+    justify-content: space-evenly;
+    height: 100%;
 
-	  &__button{
-		  width: 20%;
-		  height: 100%;
-		  padding: 1rem;
-		  background-color: transparent;
-		  border: 0;
-		  outline: 0;
-		  border: 3px solid var(--theme-button-border);
-		  display: flex;
-		  align-items: center;
-		  justify-content: center;
-		  transition: 200ms all ease-in-out;
-		
+    &__button {
+      width: 20%;
+      height: 100%;
+      padding: 1rem;
+      background-color: transparent;
+      border: 0;
+      outline: 0;
+      border: 3px solid var(--theme-button-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 200ms all ease-in-out;
 
-		  .icon{
-			  font-size: 1.6rem;
-			//   color: var(--theme-font-color);
-		  }
+      .icon {
+        font-size: 1.6rem;
+        //   color: var(--theme-font-color);
+      }
 
-		  &.done:hover{
-			  background-color: var(--theme-hover-button-color);
-			  color: green;
-		  }
-		  &.cancel:hover{
-			  background-color: var(--theme-hover-button-color);
-			  color: red;
-		  }
-		  &.help:hover{
-			  background-color: var(--theme-hover-button-color);
-			  color: yellow;
-		  }
-		  &.important:hover{
-			  background-color: var(--theme-hover-button-color);
-			  color: rgb(212, 141, 9);
-		  }
-
-		  
-	  }
+      &.doneClicked,
+      &.done:hover {
+        background-color: var(--theme-hover-button-color);
+        color: green;
+      }
+      &.cancel:hover {
+        background-color: var(--theme-hover-button-color);
+        color: red;
+      }
+      &.helpClicked,
+      &.help:hover {
+        background-color: var(--theme-hover-button-color);
+        color: yellow;
+      }
+      &.importantClicked,
+      &.important:hover {
+        background-color: var(--theme-hover-button-color);
+        color: rgb(212, 141, 9);
+      }
+    }
   }
 
-  &.marked{
-
-	 
-		  
-		  & > *{
-			  text-decoration-line: line-through;
-			  text-decoration-color: #fff;
-		  }
-	  
+  &.marked {
+    & > * {
+      text-decoration-line: line-through;
+      text-decoration-color: #fff;
+    }
   }
 }
 </style>

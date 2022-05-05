@@ -4,18 +4,18 @@
     <p v-if="login" class="home__login">Jesteś zalogowany jako <span>{{ login }}</span></p>
     <p class="home__tasks">Lista obowiązków w firmie:</p>
     <div class="home__counts">
-      <div class="home__counts__count" v-on:addTask="updateCount(number)">{{taskAmount}}</div>
+      <div class="home__counts__count" v-if="taskAmount">{{taskAmount}}</div>
+	  <div class="home__counts__count" v-else >0</div>
       <div class="home__counts__count important">3</div>
     </div>
-	<TaskWrapper/>
+	<TaskWrapper @size="addTask"/>
 	
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import TaskWrapper from '../components/TaskWrapper.vue';
-import {ref} from 'vue';
+import {ref,watch} from 'vue';
 export default {
   name: "HomeView",
   components: {TaskWrapper},
@@ -28,12 +28,14 @@ export default {
 
   setup(){
 	  const taskAmount = ref(null);
-	  const updateCount = (number) => {
-		  taskAmount.value = number;
-		  console.log(taskAmount.value);
+	  const addTask = val => {
+		  taskAmount.value = val;
 	  }
 
-	  return{taskAmount,updateCount}
+	  watch()
+	 
+
+	  return{taskAmount,addTask}
   }
 };
 </script>

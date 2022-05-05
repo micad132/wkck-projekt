@@ -12,16 +12,18 @@
         <div class="taskWrapper__mainoperations__buttons">
           <button
             class="taskWrapper__mainoperations__buttons__button"
-            @click="addTask()"
+            @click="addTask"
           >
             Add task
           </button>
           <select
             name="taskWrapper__mainoperations__buttons__select"
             class="taskWrapper__mainoperations__buttons__button select"
+			@change="changeList()"
+			
           >
-            <option value="all">WSZYSTKIE</option>
-            <option value="important">WAŻNE</option>
+            <option value="taskList">WSZYSTKIE</option>
+            <option value="filteredTaskList">WAŻNE</option>
           </select>
         </div>
       </div>
@@ -31,7 +33,9 @@
           ref="item"
           v-for="(task, index) in taskList"
           :key="index"
-          :taskName="task"
+          :taskItem="task"
+          :id="siema"
+		  :taskList="taskList"
         />
       </div>
     </div>
@@ -48,48 +52,71 @@
 
 <script>
 import TaskItem from "./TaskItem.vue";
-import { ref, watch } from "vue";
+import { ref, watch,onMounted, computed } from "vue";
 import Toast from "vue-toastification";
 import { useToast } from "vue-toastification";
 export default {
   components: { TaskItem },
   setup(props, context) {
+    let taskId = 0;
     const toast = useToast();
     const ifButtons = ref(false);
     const taskList = ref([]);
     const isActive = ref(false);
     const inputValue = ref(null);
     const item = ref(null);
+
+	
+
     const addTask = () => {
       let listItem = inputValue.value.value;
+      
       if (listItem.length < 5 || listItem.length > 20) {
         toast.error("Wrong task name!", {
           timeout: 2000,
         });
         return;
       }
-      taskList.value.push(listItem);
+      taskList.value.push({ id: taskId, name: listItem, important: false });
       inputValue.value.value = "";
-      context.emit("addTask", taskList.value.length);
+      context.emit("size", taskList.value.length);
       toast.success("Task added", {
         timeout: 2000,
       });
       isActive.value = false;
+	  ++taskId;
     };
 
     const deleteTasks = () => {
       taskList.value = [];
+      context.emit("size", taskList.value.length);
     };
 
     const markTasks = () => {
-      isActive.value = true;
+      isActive.value = !isActive.value;
+      console.log(taskList.value);
+	  console.log(filteredTaskList);
     };
+
+	const changeList = () => {
+		console.log()
+	}
 
     watch(taskList.value, () => {
       if (taskList.value.length > 0) {
         ifButtons.value = true;
       }
+	  else{
+		  ifButtons.value = false;
+		  taskId = 0;
+	  }
     });
+
+	const filteredTaskList = computed(()=> {
+
+		return taskList.value.filter(task => task.important == true);
+		
+	})
 
     return {
       taskList,
@@ -101,6 +128,7 @@ export default {
       markTasks,
       isActive,
       item,
+	  filteredTaskList
     };
   },
 };
