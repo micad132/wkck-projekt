@@ -14,9 +14,8 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import TaskWrapper from '../components/TaskWrapper.vue';
-import {ref} from 'vue';
+import {ref,watch} from 'vue';
 export default {
   name: "HomeView",
   components: {TaskWrapper},

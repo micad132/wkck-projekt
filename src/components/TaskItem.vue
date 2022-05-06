@@ -7,7 +7,7 @@
         'taskWrapper__tasks__task__name',
       ]"
     >
-      {{ taskName }} , {{id}}
+      {{taskItem.name}} {{taskItem.id}}
     </p>
     <div class="taskWrapper__tasks__task__buttons">
       <button
@@ -61,10 +61,12 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
 import { NModal } from "naive-ui";
 export default {
-  setup() {
+
+	props: ['taskItem','taskList'],
+  setup(props) {
     
     const showModal = ref(false);
     const helpButton = ref(null);
@@ -76,6 +78,12 @@ export default {
     const isHelp = ref(null);
     const isTaskNameChecked = ref(null);
 
+	onMounted(()=> {
+
+		console.log(props.taskItem);
+		console.log(props.taskList);
+	})
+
     const cancelCallback = () => {
 
 		
@@ -83,7 +91,11 @@ export default {
 
     const submitCallback = () => {
 
-
+		let deletingId = props.taskItem.id;
+		console.log(props.taskItem);
+		props.taskList.splice(deletingId,1);
+		
+		
 	};
 
     const setHelp = () => {
@@ -91,6 +103,7 @@ export default {
     };
     const setImportant = () => {
       isImportant.value = !isImportant.value;
+	  props.taskItem.important = !props.taskItem.important;
     };
     const setDone = () => {
       isDone.value = !isDone.value;
@@ -111,10 +124,11 @@ export default {
       showModal,
       NModal,
 	  cancelCallback,
-	  submitCallback
+	  submitCallback,
+	  
     };
   },
-  props: ["taskName"],
+  
 };
 </script>
 
