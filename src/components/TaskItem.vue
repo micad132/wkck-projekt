@@ -7,7 +7,7 @@
         'taskWrapper__tasks__task__name',
       ]"
     >
-      {{taskItem.name}} {{taskItem.id}}
+      {{taskItem.name}} 
     </p>
     <div class="taskWrapper__tasks__task__buttons">
       <button
@@ -37,12 +37,21 @@
         <fa class="icon" icon="bell" />
       </button>
       <button
+	    v-if="userRole.isPrezes"
         ref="importantButton"
         @click="setImportant()"
         :class="[
           isImportant ? 'importantClicked' : '',
           'taskWrapper__tasks__task__buttons__button important',
         ]"
+      >
+        <fa class="icon" icon="circle-exclamation" />
+      </button>
+	  <button
+	    v-else
+        ref="importantButton"
+        @click="setImportant()"
+        class="taskWrapper__tasks__task__buttons__button important canceled"
       >
         <fa class="icon" icon="circle-exclamation" />
       </button>
@@ -65,7 +74,7 @@ import { ref,onMounted } from "vue";
 import { NModal } from "naive-ui";
 export default {
 
-	props: ['taskItem','taskList'],
+	props: ['taskItem','taskList','userRole'],
   setup(props) {
     
     const showModal = ref(false);
@@ -77,6 +86,7 @@ export default {
     const isDone = ref(null);
     const isHelp = ref(null);
     const isTaskNameChecked = ref(null);
+	const userRole = props.userRole;
 
 	onMounted(()=> {
 
@@ -125,6 +135,7 @@ export default {
       NModal,
 	  cancelCallback,
 	  submitCallback,
+	  userRole
 	  
     };
   },
@@ -179,6 +190,8 @@ export default {
         //   color: var(--theme-font-color);
       }
 
+	  
+
       &.doneClicked,
       &.done:hover {
         background-color: var(--theme-hover-button-color);
@@ -198,6 +211,13 @@ export default {
         background-color: var(--theme-hover-button-color);
         color: rgb(212, 141, 9);
       }
+
+	  &.important.canceled{
+		  color: red;
+		  &:hover{
+			  color: red;
+		  }
+	  }
     }
   }
 

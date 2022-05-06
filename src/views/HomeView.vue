@@ -1,43 +1,63 @@
 <template>
   <div class="home">
     <h1 class="home__logo">taskList</h1>
-    <p v-if="login" class="home__login">Jesteś zalogowany jako <span>{{ login }}</span></p>
+    <p v-if="loginName" class="home__login">Jesteś zalogowany jako <span>{{ loginName }}</span></p>
     <p class="home__tasks">Lista obowiązków w firmie:</p>
     <div class="home__counts">
       <div class="home__counts__count" v-if="taskAmount">{{taskAmount}}</div>
 	  <div class="home__counts__count" v-else >0</div>
       <div class="home__counts__count important">3</div>
     </div>
-	<TaskWrapper @size="addTask"/>
+	<TaskWrapper @size="addTask" :userRole="userRole"/>
 	
   </div>
 </template>
 
 <script>
 import TaskWrapper from '../components/TaskWrapper.vue';
-import {ref,watch} from 'vue';
+import {ref,watch,onMounted} from 'vue';
+import {useRoute} from 'vue-router';
 export default {
   name: "HomeView",
   components: {TaskWrapper},
 
-  data() {
-    return {
-      login: this.$route.params.login,
-    };
-  },
+  
 
   setup(){
+	  const route = useRoute();
 	  const taskAmount = ref(null);
+	  const userRole = {
+
+		  isPrezes: false,
+		  isPracownik: false
+	  }
+	  let loginName  = route.params.login;
+
+	 
+	  
+
+		  console.log('siema');
+		  if(loginName === 'prezes'){
+			  
+			  userRole.isPrezes = true;
+		  }
+		  else if(loginName === 'pracownik'){
+			  userRole.isPracownik = true;
+		  }
+	  
+
 	  const addTask = val => {
 		  taskAmount.value = val;
+		  console.log(loginName);
 	  }
 
 	  watch(taskAmount, ()=> {
 
 	  })
 	 
+	 
 
-	  return{taskAmount,addTask}
+	  return{taskAmount,addTask,loginName,userRole}
   }
 };
 </script>
