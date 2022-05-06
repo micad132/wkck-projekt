@@ -5,7 +5,7 @@
     <p class="home__tasks">Lista obowiązków w firmie:</p>
     <div class="home__counts">
       <div class="home__counts__count" v-if="taskAmount">{{taskAmount}}</div>
-	  <div class="home__counts__count" v-else>0</div>
+	  <div class="home__counts__count" v-else >0</div>
       <div class="home__counts__count important">3</div>
     </div>
 	<TaskWrapper @size="addTask"/>
@@ -28,11 +28,14 @@ export default {
 
   setup(){
 	  const taskAmount = ref(null);
-	  
-
 	  const addTask = val => {
 		  taskAmount.value = val;
 	  }
+
+	  watch(taskAmount, ()=> {
+
+	  })
+	 
 
 	  return{taskAmount,addTask}
   }

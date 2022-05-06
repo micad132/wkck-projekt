@@ -34,14 +34,9 @@
           ref="item"
           v-for="(task, index) in taskList"
           :key="index"
-<<<<<<< HEAD
-          :taskName="task"
-		  :id="siema"
-=======
           :taskItem="task"
           :id="siema"
 		  :taskList="taskList"
->>>>>>> object
         />
       </div>
     </div>
@@ -96,22 +91,14 @@ export default {
     };
 
     const deleteTasks = () => {
-<<<<<<< HEAD
-      taskList.value  = [];
-	  context.emit("size", taskList.value.length);
-=======
       taskList.value = [];
       context.emit("size", taskList.value.length);
->>>>>>> object
     };
 
     const markTasks = () => {
       isActive.value = !isActive.value;
-<<<<<<< HEAD
-=======
       console.log(taskList.value);
 	  console.log(filteredTaskList);
->>>>>>> object
     };
 
 	const changeList = (event) => {

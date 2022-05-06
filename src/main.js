@@ -7,7 +7,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import Toast, { POSITION } from "vue-toastification";
 import naive from "naive-ui";
 import "vue-toastification/dist/index.css";
-import naive from "naive-ui";
+
 
 library.add(fas);
 
