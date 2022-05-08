@@ -32,11 +32,19 @@
         <fa class="icon" icon="check" />
       </button>
       <button
+	    v-if="userRole.isPrezes"
         @click="showModal = true"
         class="taskWrapper__tasks__task__buttons__button cancel"
       >
         <fa class="icon" icon="xmark" />
       </button>
+	  <button
+	    v-else
+        class="taskWrapper__tasks__task__buttons__button cancel canceled"
+      >
+        <fa class="icon" icon="xmark" />
+      </button>
+
       <button
 	    v-if="userRole.isPracownik"
         ref="helpButton"
@@ -241,6 +249,13 @@ export default {
       }
 
 	  &.important.canceled{
+		  color: red;
+		  &:hover{
+			  color: red;
+		  }
+	  }
+
+	  &.cancel.canceled{
 		  color: red;
 		  &:hover{
 			  color: red;

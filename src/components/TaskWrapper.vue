@@ -78,28 +78,28 @@ export default {
     const toast = useToast();
     const ifButtons = ref(false);
     //const taskList = ref([]);
-	  const taskList = ref([{
+    const taskList = ref([{
 
-	  	id: 0,
-	  	name: 'sprzatanie',
-	  	done: false,
-	  	help: false,
-	  	important: false,
-	  },
-	  {
-	  	id: 1,
-	  	name: 'kawka',
-	  	done: false,
-	  	help: false,
-	  	important: false,
-	  },
-	  {
-	  	id: 2,
-	  	name: 'costam',
-	  	done: false,
-	  	help: false,
-	  	important: false
-	  }])
+	   	id: 0,
+    	name: 'sprzatanie',
+    	done: false,
+    	help: false,
+    	important: false,
+    },
+    {
+    	id: 1,
+	   	name: 'kawka',
+	   	done: false,
+    	help: false,
+    	important: false,
+    },
+    {
+    	id: 2,
+    	name: 'pisanie',
+    	done: false,
+	   	help: false,
+	   	important: false
+	   }])
 	const copyofTaskList = ref([]);
     const isActive = ref(false);
     const inputValue = ref(null);
