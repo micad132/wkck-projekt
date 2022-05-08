@@ -2,9 +2,9 @@
   <div class="wrapper">
     <header>
       <nav>
-        <router-link to="/">Home</router-link>
+        <router-link to="/">Strona główna</router-link>
         <router-link to="/about">Login</router-link>
-        <router-link to="/help">Help</router-link>
+        <router-link to="/help">Pomoc</router-link>
       </nav>
       <button @click="changeTheme()" class="theme">motyw</button>
     </header>
@@ -69,7 +69,7 @@ button {
 }
 
 header {
-  width: 300px;
+  width: 400px;
   margin-left: auto;
   margin-bottom: 20px;
   

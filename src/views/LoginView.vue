@@ -4,7 +4,7 @@
 
     <form @submit.prevent class="wrapper" autocomplete="off">
       <label>Login:</label>
-      <input  v-model="loginInfo.name" type="text" autocomplete="off" />
+      <input  v-model="loginInfo.name" type="text" autocomplete="off" autofocus />
       <label>Hasło:</label>
       <input
 	    
@@ -82,7 +82,7 @@ h1 {
 }
 
 .wrapper {
-  //background-image: linear-gradient(45deg,#C3A8EE,#F5C1EA);
+  
   border-radius: 10px;
   margin: 0 auto;
   width: 70%;
@@ -92,7 +92,7 @@ h1 {
   padding: 40px;
   align-items: center;
   background-color: transparent;
-  //border: 3px solid var(--theme-button-border);
+  
 
   label {
     font-size: 1.2rem;
@@ -111,8 +111,7 @@ h1 {
     color: #fff;
 
     &:focus {
-      //background-color: var(--theme-hover-button-color);
-      //border: 5px solid var(--theme-hover-button-color);
+      
       width: 60%;
       color: #fff;
     }

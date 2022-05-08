@@ -27,7 +27,7 @@
             name="taskWrapper__mainoperations__buttons__select"
             class="taskWrapper__mainoperations__buttons__button select"
 			@change="changeList($event)"
-			v-model="selectValue"
+			
 			
           >
             <option value="all">WSZYSTKIE</option>
@@ -42,7 +42,7 @@
           v-for="(task, index) in taskList"
           :key="index"
           :taskItem="task"
-          :id="siema"
+          
 		  :taskList="taskList"
 		  :userRole="userRole"
         />
@@ -78,28 +78,35 @@ export default {
     const toast = useToast();
     const ifButtons = ref(false);
     //const taskList = ref([]);
-	const taskList = ref([{
+	  const taskList = ref([{
 
-		id: 0,
-		name: 'sprzatanie',
-		important: false,
-	},
-	{
-		id: 1,
-		name: 'kawka',
-		important: false,
-	},
-	{
-		id: 2,
-		name: 'costam',
-		important: false
-	}])
+	  	id: 0,
+	  	name: 'sprzatanie',
+	  	done: false,
+	  	help: false,
+	  	important: false,
+	  },
+	  {
+	  	id: 1,
+	  	name: 'kawka',
+	  	done: false,
+	  	help: false,
+	  	important: false,
+	  },
+	  {
+	  	id: 2,
+	  	name: 'costam',
+	  	done: false,
+	  	help: false,
+	  	important: false
+	  }])
 	const copyofTaskList = ref([]);
     const isActive = ref(false);
     const inputValue = ref(null);
     const item = ref(null);
+	let importantCount = 0;
     const userRole = props.userRole;
-	console.log(userRole);
+	
 
     const addTask = () => {
       let listItem = inputValue.value.value;
@@ -110,7 +117,7 @@ export default {
         });
         return;
       }
-      taskList.value.push({ id: taskId, name: listItem, important: false });
+      taskList.value.push({ id: taskId, name: listItem,done:false,help:false,important: false });
       inputValue.value.value = "";
       context.emit("size", taskList.value.length);
       toast.success("Task added", {
@@ -122,18 +129,17 @@ export default {
     };
 
     const deleteTasks = () => {
-      taskList.value = [];
+      taskList.value.length = 0;
       context.emit("size", taskList.value.length);
     };
 
     const markTasks = () => {
       isActive.value = !isActive.value;
-      console.log(taskList.value);
-	  console.log(filteredTaskList);
+      
     };
 
 	const changeList = (event) => {
-		console.log(event.target.value);
+		
 		if(event.target.value == 'important'){
 			taskList.value = filteredTaskList();
 		}
@@ -152,6 +158,7 @@ export default {
 	})
 
     watch(taskList.value, () => {
+	  console.log('siemanko');
       if (taskList.value.length > 0) {
         ifButtons.value = true;
       }
@@ -159,6 +166,11 @@ export default {
 		  ifButtons.value = false;
 		  taskId = 0;
 	  }
+	
+
+	//   let  newArr = filteredTaskList();
+	//   importantCount = newArr.length;
+	//   console.log(importantCount);
     });
 
 	const filteredTaskList = () => {
@@ -182,7 +194,8 @@ export default {
 	  filteredTaskList,
 	  changeList,
 	  copyofTaskList,
-	  userRole
+	  userRole,
+	  importantCount
     };
   },
 };

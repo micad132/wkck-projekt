@@ -3,20 +3,15 @@
     <h1>Jak korzystać z aplikacji</h1>
     <ul>
       <li>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, sint,
-        doloremque nobis quaerat quae sit suscipit sapiente ipsa sed nihil
-        voluptatibus. Provident excepturi reprehenderit voluptas adipisci
-        facilis assumenda, enim placeat est non nisi aliquam id minus amet in
-        deserunt sint a, accusantium culpa quasi nemo odit vitae ullam. Tenetur,
-        animi.
+        Aplikacja polega na zarządzaniu taskami w przykładowej firmie. Zadania-taski można dodawać, usuwać, oznaczać jako ważne lub te w których potrzebna jest pomoc.
+		Sama aplikacja posiada jasny i ciemny motyw, który zmienia się po nacisnięciu przycisku ,,MOTYW". Jednakże, aby prawidłowo korzystać z aplikacji należy się zalogować.
       </li>
       <li>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta totam
-        placeat ipsa, natus ducimus animi molestiae ut eaque eum nesciunt quos
-        corrupti deserunt debitis, quibusdam officiis quas deleniti excepturi
-        dolores. Eveniet eius similique consequuntur doloribus cupiditate, amet
-        tempore voluptatibus beatae molestias. Accusantium consectetur ut nemo
-        ea laudantium blanditiis nihil dolor!
+        Aplikacja rozróżnia dwa rodzaje użytkowników: prezesa i pracownika. Prezes może dodawać zadania, usuwać je, oznaczać jako ważne lub jednocześnie wszystkie usunąć lub oznaczyć jako wykonane.
+		Pracownik natomiast może oznaczać zadania jako wykonane lub jako zadania z którymi potrzebuje pomocy. Zarówno pracownik jak i prezes mogą wyświetlać z listy wszystkie zadania lub te wyłącznie ważne.
+		<br/>
+		<span>Dane dla Prezesa:</span> login: prezes hasło: prezes <br/>
+		<span>Dane dla Pracownika:</span> login: pracownik hasło: pracownik
       </li>
     </ul>
   </div>
@@ -48,6 +43,13 @@ export default {};
         text-align: justify;
         color: var(--theme-font-color);
         font-weight: 600;
+
+		span{
+		   font-size: 22px;
+		   color: red;
+		   margin-right: 10px;
+		}
+		
       }
     }
   }

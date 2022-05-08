@@ -11,11 +11,22 @@
     </p>
     <div class="taskWrapper__tasks__task__buttons">
       <button
+	    v-if="userRole.isPracownik"
         ref="doneButton"
         @click="setDone()"
         :class="[
           isDone ? 'doneClicked' : '',
           'taskWrapper__tasks__task__buttons__button done',
+        ]"
+      >
+        <fa class="icon" icon="check" />
+      </button>
+	  <button
+	    v-else
+        ref="doneButton"
+        :class="[
+          isDone ? 'doneClicked' : '',
+          'taskWrapper__tasks__task__buttons__button done canceled',
         ]"
       >
         <fa class="icon" icon="check" />
@@ -27,11 +38,22 @@
         <fa class="icon" icon="xmark" />
       </button>
       <button
+	    v-if="userRole.isPracownik"
         ref="helpButton"
         @click="setHelp()"
         :class="[
           isHelp ? 'helpClicked' : '',
           'taskWrapper__tasks__task__buttons__button help',
+        ]"
+      >
+        <fa class="icon" icon="bell" />
+      </button>
+	  <button
+	    v-else
+        ref="helpButton"
+        :class="[
+          isHelp ? 'helpClicked' : '',
+          'taskWrapper__tasks__task__buttons__button help canceled',
         ]"
       >
         <fa class="icon" icon="bell" />
@@ -90,8 +112,7 @@ export default {
 
 	onMounted(()=> {
 
-		console.log(props.taskItem);
-		console.log(props.taskList);
+		
 	})
 
     const cancelCallback = () => {
@@ -102,22 +123,27 @@ export default {
     const submitCallback = () => {
 
 		let deletingId = props.taskItem.id;
-		console.log(props.taskItem);
+		
 		props.taskList.splice(deletingId,1);
 		
 		
 	};
 
     const setHelp = () => {
-      isHelp.value = !isHelp.value;
+      //isHelp.value = !isHelp.value;
+	  props.taskItem.help = !props.taskItem.help;
+	  isHelp.value = props.taskItem.help;
+	  
     };
     const setImportant = () => {
-      isImportant.value = !isImportant.value;
+      //isImportant.value = !isImportant.value;
 	  props.taskItem.important = !props.taskItem.important;
+	  isImportant.value = props.taskItem.important;
     };
     const setDone = () => {
       isDone.value = !isDone.value;
       isTaskNameChecked.value = !isTaskNameChecked.value;
+	  props.taskItem.done = isDone.value;
     };
     return {
       helpButton,
@@ -159,6 +185,7 @@ export default {
     align-items: center;
     font-size: 1.6rem;
     color: var(--theme-font-color);
+	
 
     &.checked {
       text-decoration-line: line-through;
@@ -184,10 +211,11 @@ export default {
       align-items: center;
       justify-content: center;
       transition: 200ms all ease-in-out;
+	  color: var(--theme-font-color);
 
       .icon {
         font-size: 1.6rem;
-        //   color: var(--theme-font-color);
+        
       }
 
 	  
@@ -213,6 +241,19 @@ export default {
       }
 
 	  &.important.canceled{
+		  color: red;
+		  &:hover{
+			  color: red;
+		  }
+	  }
+
+	  &.help.canceled{
+		  color: red;
+		  &:hover{
+			  color: red;
+		  }
+	  }
+	  &.done.canceled{
 		  color: red;
 		  &:hover{
 			  color: red;
