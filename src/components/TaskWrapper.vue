@@ -224,7 +224,7 @@ export default {
         background-color: transparent;
         outline: 0;
         font-size: 1.2rem;
-        color: #fff;
+        color: var(--pure-white);
       }
 
       &__buttons {
@@ -248,9 +248,9 @@ export default {
           }
 
 		  &.canceled{
-			  color: red;
+			  color: var(--canceled-color);
 			  &:hover{
-				  color: red;
+				  color: var(--canceled-color);
 			  }
 		  }
         }
@@ -267,7 +267,7 @@ export default {
         font-size: 5rem;
       }
 
-      //   border: 3px solid var(--theme-button-border);
+      
     }
   }
 
@@ -303,10 +303,10 @@ export default {
       }
 
 	  &.canceled{
-		  color: red;
+		  color: var(--canceled-color);
 		
 		&:hover{
-			color: red;
+			color: var(--canceled-color);
 		}
 	  }
     }

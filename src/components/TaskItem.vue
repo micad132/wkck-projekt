@@ -197,7 +197,7 @@ export default {
 
     &.checked {
       text-decoration-line: line-through;
-      text-decoration-color: #fff;
+      text-decoration-color: var(--pure-white);
     }
   }
 
@@ -231,47 +231,47 @@ export default {
       &.doneClicked,
       &.done:hover {
         background-color: var(--theme-hover-button-color);
-        color: green;
+        color: var(--done-color);
       }
       &.cancel:hover {
         background-color: var(--theme-hover-button-color);
-        color: red;
+        color: var(--canceled-color);
       }
       &.helpClicked,
       &.help:hover {
         background-color: var(--theme-hover-button-color);
-        color: yellow;
+        color: var(--help-color);
       }
       &.importantClicked,
       &.important:hover {
         background-color: var(--theme-hover-button-color);
-        color: rgb(212, 141, 9);
+        color: var(--important-color);
       }
 
 	  &.important.canceled{
-		  color: red;
+		  color: var(--canceled-color);
 		  &:hover{
-			  color: red;
+			  color: var(--canceled-color);
 		  }
 	  }
 
 	  &.cancel.canceled{
-		  color: red;
+		  color: var(--canceled-color);
 		  &:hover{
-			  color: red;
+			  color: var(--canceled-color);
 		  }
 	  }
 
 	  &.help.canceled{
-		  color: red;
+		  color: var(--canceled-color);
 		  &:hover{
-			  color: red;
+			  color: var(--canceled-color);
 		  }
 	  }
 	  &.done.canceled{
-		  color: red;
+		  color: var(--canceled-color);
 		  &:hover{
-			  color: red;
+			  color: var(--canceled-color);
 		  }
 	  }
     }
@@ -280,7 +280,7 @@ export default {
   &.marked {
     & > * {
       text-decoration-line: line-through;
-      text-decoration-color: #fff;
+      text-decoration-color: var(--pure-white);
     }
   }
 }

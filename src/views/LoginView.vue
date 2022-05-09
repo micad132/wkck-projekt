@@ -108,12 +108,12 @@ h1 {
     outline: 0;
     margin: 10px 0;
     transition: 300ms all ease-in-out;
-    color: #fff;
+    color: var(--pure-white);
 
     &:focus {
       
       width: 60%;
-      color: #fff;
+      color: var(--pure-white);
     }
   }
 
@@ -129,7 +129,7 @@ h1 {
     color: var(--theme-font-color);
     text-transform: uppercase;
     transition: 300ms all;
-    outline-color: #e996b6;
+   
 
     &:hover,
     &:focus {

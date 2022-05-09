@@ -90,11 +90,11 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: lime;
+  color: rgb(0,255,0);
 }
 
 nav a:hover {
-  color: red;
+  color: rgb(255,0,0);
 }
 
 .theme {
@@ -104,7 +104,7 @@ nav a:hover {
   font-weight: bold;
   text-transform: uppercase;
   transition: 300ms all;
-  background-color: #17252a;
+  
   background-color: transparent;
   color: #fff;
   letter-spacing: 2px;

@@ -46,7 +46,7 @@ export default {};
 
 		span{
 		   font-size: 22px;
-		   color: red;
+		   color: var(--pure-red);
 		   margin-right: 10px;
 		}
 		

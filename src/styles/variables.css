@@ -1,31 +1,29 @@
-
-
-
-
-
-.light-theme{
-
-	--background-main: #3AAFA9;
-	--theme-button-border: #0d1518;
-	--theme-font-color: #0d1518;
-	
-	--theme-button-font-color: #DEF2F1;
-	--theme-hover-button-color: #0d1518;
-	--theme-hover-button-text: #fff;
-	--theme-help-font-color: #0d1518;
-
+.light-theme {
+  --background-main: #3aafa9;
+  --theme-button-border: #0d1518;
+  --theme-font-color: #0d1518;
+  --theme-button-font-color: #def2f1;
+  --theme-hover-button-color: #0d1518;
+  --theme-hover-button-text: #fff;
+  --canceled-color: rgb(255, 0, 0);
+  --important-color: rgb(212, 141, 9);
+  --done-color: rgb(0, 128, 0);
+  --help-color: rgb(255, 255, 0);
+  --pure-white: #fff;
+  --pure-red: rgb(255,0,0);
 }
 
-.dark-theme{
-
-	--background-main: #17252A;
-	--theme-button-border: #3AAFA9;
-	--theme-font-color: #DEF2F1;
-	
-	--theme-button-font-color: #000;
-	--theme-hover-button-color: #3AAFA9;
-	--theme-hover-button-text: #000;
-	--theme-help-font-color: #3AAFA9;
-
+.dark-theme {
+  --background-main: #17252a;
+  --theme-button-border: #3aafa9;
+  --theme-font-color: #def2f1;
+  --theme-button-font-color: #000;
+  --theme-hover-button-color: #3aafa9;
+  --theme-hover-button-text: #000;
+  --canceled-color: rgb(255, 0, 0);
+  --important-color: rgb(212, 141, 9);
+  --done-color: rgb(0, 128, 0);
+  --help-color: rgb(255, 255, 0);
+  --pure-white: #fff;
+  --pure-red: rgb(255,0,0);
 }
-

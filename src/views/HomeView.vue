@@ -62,7 +62,7 @@ export default {
   h1 {
     font-size: 40px;
     font-style: italic;
-    color: #fff;
+    color: var(--pure-white);
   }
   &__login {
     font-size: 22px;
@@ -90,13 +90,13 @@ export default {
     &__count {
       border: 3px solid var(--theme-button-border);
       padding: 1.2rem 1.4rem;
-      color: #def2f1;
+      color: var(--pure-white);
       font-weight: bold;
 
       transition: 200ms all ease-in-out;
 
       &.important {
-        color: red;
+        color: var(--pure-red);
       }
     }
   }
