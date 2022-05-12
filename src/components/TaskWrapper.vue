@@ -115,6 +115,7 @@ const addTask = () => {
     toast.error("Wrong task name!", {
       timeout: 2000,
     });
+	inputValue.value.value = '';
     return;
   }
   taskList.value.push({
@@ -125,7 +126,7 @@ const addTask = () => {
     important: false,
   });
   inputValue.value.value = "";
-  context.emit("size", taskList.value.length);
+//   context.emit("size", taskList.value.length);
   toast.success("Task added", {
     timeout: 2000,
   });
