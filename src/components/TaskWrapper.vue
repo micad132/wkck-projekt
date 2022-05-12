@@ -13,22 +13,20 @@
           <button
             class="taskWrapper__mainoperations__buttons__button"
             @click="addTask"
-			v-if="userRole.isPrezes"
-			
+            v-if="userRole.isPrezes"
           >
             Dodaj task
           </button>
-		  <button
-		   v-else
-		   class="taskWrapper__mainoperations__buttons__button canceled"
-		  
-		  >Zła rola</button>
+          <button
+            v-else
+            class="taskWrapper__mainoperations__buttons__button canceled"
+          >
+            Zła rola
+          </button>
           <select
             name="taskWrapper__mainoperations__buttons__select"
             class="taskWrapper__mainoperations__buttons__button select"
-			@change="changeList($event)"
-			
-			
+            @change="changeList($event)"
           >
             <option value="all">WSZYSTKIE</option>
             <option value="important">WAŻNE</option>
@@ -42,162 +40,141 @@
           v-for="(task, index) in taskList"
           :key="index"
           :taskItem="task"
-          
-		  :taskList="taskList"
-		  :userRole="userRole"
+          :taskList="taskList"
+          :userRole="userRole"
         />
       </div>
     </div>
     <div v-if="ifButtons" class="wrapper__buttons">
-      <button v-if="userRole.isPrezes" @click="markTasks()" class="wrapper__buttons__button">
+      <button
+        v-if="userRole.isPrezes"
+        @click="markTasks()"
+        class="wrapper__buttons__button"
+      >
         odznacz wszystko
       </button>
-	  <button v-else class="wrapper__buttons__button canceled">
-        zła rola
-      </button>
-      <button v-if="userRole.isPrezes" @click="deleteTasks()" class="wrapper__buttons__button">
+      <button v-else class="wrapper__buttons__button canceled">zła rola</button>
+      <button
+        v-if="userRole.isPrezes"
+        @click="deleteTasks()"
+        class="wrapper__buttons__button"
+      >
         usuń wszystko
       </button>
-	  <button v-else  class="wrapper__buttons__button canceled">
-        zła rola
-      </button>
+      <button v-else class="wrapper__buttons__button canceled">zła rola</button>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import TaskItem from "./TaskItem.vue";
-import { ref, watch,onMounted, computed } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import Toast from "vue-toastification";
 import { useToast } from "vue-toastification";
-export default {
-  components: { TaskItem },
-  props: ['userRole'],
-  setup(props, context) {
-    let taskId = 0;
-    const toast = useToast();
-    const ifButtons = ref(false);
-    //const taskList = ref([]);
-    const taskList = ref([{
 
-	   	id: 0,
-    	name: 'sprzatanie',
-    	done: false,
-    	help: false,
-    	important: false,
-    },
-    {
-    	id: 1,
-	   	name: 'kawka',
-	   	done: false,
-    	help: false,
-    	important: false,
-    },
-    {
-    	id: 2,
-    	name: 'pisanie',
-    	done: false,
-	   	help: false,
-	   	important: false
-	   }])
-	const copyofTaskList = ref([]);
-    const isActive = ref(false);
-    const inputValue = ref(null);
-    const item = ref(null);
-	let importantCount = 0;
-    const userRole = props.userRole;
-	
+const props = defineProps(["userRole"]);
 
-    const addTask = () => {
-      let listItem = inputValue.value.value;
-      
-      if (listItem.length < 5 || listItem.length > 20) {
-        toast.error("Wrong task name!", {
-          timeout: 2000,
-        });
-        return;
-      }
-      taskList.value.push({ id: taskId, name: listItem,done:false,help:false,important: false });
-      inputValue.value.value = "";
-      context.emit("size", taskList.value.length);
-      toast.success("Task added", {
-        timeout: 2000,
-      });
-      isActive.value = false;
-	  ++taskId;
-	  copyofTaskList.value = [...taskList.value];
-    };
-
-    const deleteTasks = () => {
-      taskList.value.length = 0;
-      context.emit("size", taskList.value.length);
-    };
-
-    const markTasks = () => {
-      isActive.value = !isActive.value;
-      
-    };
-
-	const changeList = (event) => {
-		
-		if(event.target.value == 'important'){
-			taskList.value = filteredTaskList();
-		}
-		else{
-			taskList.value = copyofTaskList.value;
-		}
-	}
-
-	onMounted(()=> {
-		if(taskList.value.length>0){
-			ifButtons.value = true;
-		}
-		else{
-			ifButtons.value = false;
-		}
-	})
-
-    watch(taskList.value, () => {
-	  console.log('siemanko');
-      if (taskList.value.length > 0) {
-        ifButtons.value = true;
-      }
-	  else{
-		  ifButtons.value = false;
-		  taskId = 0;
-	  }
-	
-
-	//   let  newArr = filteredTaskList();
-	//   importantCount = newArr.length;
-	//   console.log(importantCount);
-    });
-
-	const filteredTaskList = () => {
-
-		return taskList.value.filter(task => task.important == true);
-		
-	}
-
-	
-
-    return {
-      taskList,
-      inputValue,
-      addTask,
-      ifButtons,
-      toast,
-      deleteTasks,
-      markTasks,
-      isActive,
-      item,
-	  filteredTaskList,
-	  changeList,
-	  copyofTaskList,
-	  userRole,
-	  importantCount
-    };
+let taskId = 0;
+const toast = useToast();
+const ifButtons = ref(false);
+//const taskList = ref([]);
+const taskList = ref([
+  {
+    id: 0,
+    name: "sprzatanie",
+    done: false,
+    help: false,
+    important: false,
   },
+  {
+    id: 1,
+    name: "kawka",
+    done: false,
+    help: false,
+    important: false,
+  },
+  {
+    id: 2,
+    name: "pisanie",
+    done: false,
+    help: false,
+    important: false,
+  },
+]);
+const copyofTaskList = ref([]);
+const isActive = ref(false);
+const inputValue = ref(null);
+const item = ref(null);
+let importantCount = 0;
+const userRole = props.userRole;
+
+const addTask = () => {
+  let listItem = inputValue.value.value;
+
+  if (listItem.length < 5 || listItem.length > 20) {
+    toast.error("Wrong task name!", {
+      timeout: 2000,
+    });
+    return;
+  }
+  taskList.value.push({
+    id: taskId,
+    name: listItem,
+    done: false,
+    help: false,
+    important: false,
+  });
+  inputValue.value.value = "";
+  context.emit("size", taskList.value.length);
+  toast.success("Task added", {
+    timeout: 2000,
+  });
+  isActive.value = false;
+  ++taskId;
+  copyofTaskList.value = [...taskList.value];
+};
+
+const deleteTasks = () => {
+  taskList.value.length = 0;
+  context.emit("size", taskList.value.length);
+};
+
+const markTasks = () => {
+  isActive.value = !isActive.value;
+};
+
+const changeList = (event) => {
+  if (event.target.value == "important") {
+    taskList.value = filteredTaskList();
+  } else {
+    taskList.value = copyofTaskList.value;
+  }
+};
+
+onMounted(() => {
+  if (taskList.value.length > 0) {
+    ifButtons.value = true;
+  } else {
+    ifButtons.value = false;
+  }
+});
+
+watch(taskList.value, () => {
+  console.log("siemanko");
+  if (taskList.value.length > 0) {
+    ifButtons.value = true;
+  } else {
+    ifButtons.value = false;
+    taskId = 0;
+  }
+
+  //   let  newArr = filteredTaskList();
+  //   importantCount = newArr.length;
+  //   console.log(importantCount);
+});
+
+const filteredTaskList = () => {
+  return taskList.value.filter((task) => task.important == true);
 };
 </script>
 
@@ -233,7 +210,6 @@ export default {
         justify-content: space-evenly;
 
         &__button {
-		  
           padding: 1rem;
           border: 3px solid var(--theme-button-border);
           background-color: transparent;
@@ -247,12 +223,12 @@ export default {
             color: var(--theme-hover-button-text);
           }
 
-		  &.canceled{
-			  color: var(--canceled-color);
-			  &:hover{
-				  color: var(--canceled-color);
-			  }
-		  }
+          &.canceled {
+            color: var(--canceled-color);
+            &:hover {
+              color: var(--canceled-color);
+            }
+          }
         }
       }
     }
@@ -266,15 +242,13 @@ export default {
       &.marked {
         font-size: 5rem;
       }
-
-      
     }
   }
 
   &__buttons {
     width: 100%;
     padding: 1rem;
-	margin-top: 2rem;
+    margin-top: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -290,25 +264,18 @@ export default {
       font-weight: bold;
       color: var(--theme-font-color);
 
-
-	  
-
-
-
-
-
       &:hover {
         background-color: var(--theme-hover-button-color);
         color: var(--theme-hover-button-text);
       }
 
-	  &.canceled{
-		  color: var(--canceled-color);
-		
-		&:hover{
-			color: var(--canceled-color);
-		}
-	  }
+      &.canceled {
+        color: var(--canceled-color);
+
+        &:hover {
+          color: var(--canceled-color);
+        }
+      }
     }
   }
 }

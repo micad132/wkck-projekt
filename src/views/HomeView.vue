@@ -14,39 +14,30 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import TaskWrapper from "../components/TaskWrapper.vue";
 import { ref, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
-export default {
-  name: "HomeView",
-  components: { TaskWrapper },
 
-  setup() {
-    const route = useRoute();
-    const taskAmount = ref(null);
-    const userRole = {
-      isPrezes: false,
-      isPracownik: false,
-    };
-    let loginName = route.params.login;
-
-    if (loginName === "prezes") {
-      userRole.isPrezes = true;
-    } else if (loginName === "pracownik") {
-      userRole.isPracownik = true;
-    }
-
-    const addTask = (val) => {
-      taskAmount.value = val;
-      
-    };
-
-    watch(taskAmount, () => {});
-
-    return { taskAmount, addTask, loginName, userRole };
-  },
+const route = useRoute();
+const taskAmount = ref(null);
+const userRole = {
+  isPrezes: false,
+  isPracownik: false,
 };
+let loginName = route.params.login;
+
+if (loginName === "prezes") {
+  userRole.isPrezes = true;
+} else if (loginName === "pracownik") {
+  userRole.isPracownik = true;
+}
+
+const addTask = (val) => {
+  taskAmount.value = val;
+};
+
+watch(taskAmount, () => {});
 </script>
 
 <style lang="scss" scoped>

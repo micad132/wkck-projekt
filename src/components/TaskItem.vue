@@ -7,11 +7,11 @@
         'taskWrapper__tasks__task__name',
       ]"
     >
-      {{taskItem.name}} 
+      {{ taskItem.name }}
     </p>
     <div class="taskWrapper__tasks__task__buttons">
       <button
-	    v-if="userRole.isPracownik"
+        v-if="userRole.isPracownik"
         ref="doneButton"
         @click="setDone()"
         :class="[
@@ -21,8 +21,8 @@
       >
         <fa class="icon" icon="check" />
       </button>
-	  <button
-	    v-else
+      <button
+        v-else
         ref="doneButton"
         :class="[
           isDone ? 'doneClicked' : '',
@@ -32,21 +32,21 @@
         <fa class="icon" icon="check" />
       </button>
       <button
-	    v-if="userRole.isPrezes"
+        v-if="userRole.isPrezes"
         @click="showModal = true"
         class="taskWrapper__tasks__task__buttons__button cancel"
       >
         <fa class="icon" icon="xmark" />
       </button>
-	  <button
-	    v-else
+      <button
+        v-else
         class="taskWrapper__tasks__task__buttons__button cancel canceled"
       >
         <fa class="icon" icon="xmark" />
       </button>
 
       <button
-	    v-if="userRole.isPracownik"
+        v-if="userRole.isPracownik"
         ref="helpButton"
         @click="setHelp()"
         :class="[
@@ -56,8 +56,8 @@
       >
         <fa class="icon" icon="bell" />
       </button>
-	  <button
-	    v-else
+      <button
+        v-else
         ref="helpButton"
         :class="[
           isHelp ? 'helpClicked' : '',
@@ -67,7 +67,7 @@
         <fa class="icon" icon="bell" />
       </button>
       <button
-	    v-if="userRole.isPrezes"
+        v-if="userRole.isPrezes"
         ref="importantButton"
         @click="setImportant()"
         :class="[
@@ -77,8 +77,8 @@
       >
         <fa class="icon" icon="circle-exclamation" />
       </button>
-	  <button
-	    v-else
+      <button
+        v-else
         ref="importantButton"
         @click="setImportant()"
         class="taskWrapper__tasks__task__buttons__button important canceled"
@@ -99,81 +99,47 @@
   </div>
 </template>
 
-<script>
-import { ref,onMounted } from "vue";
+<script setup>
+import { ref, onMounted } from "vue";
 import { NModal } from "naive-ui";
-export default {
 
-	props: ['taskItem','taskList','userRole'],
-  setup(props) {
-    
-    const showModal = ref(false);
-    const helpButton = ref(null);
-    const importantButton = ref(null);
-    const doneButton = ref(null);
-    const taskText = ref(null);
-    const isImportant = ref(null);
-    const isDone = ref(null);
-    const isHelp = ref(null);
-    const isTaskNameChecked = ref(null);
-	const userRole = props.userRole;
+const props = defineProps(["taskItem", "taskList", "userRole"]);
 
-	onMounted(()=> {
+const showModal = ref(false);
+const helpButton = ref(null);
+const importantButton = ref(null);
+const doneButton = ref(null);
+const taskText = ref(null);
+const isImportant = ref(null);
+const isDone = ref(null);
+const isHelp = ref(null);
+const isTaskNameChecked = ref(null);
+const userRole = props.userRole;
 
-		
-	})
+onMounted(() => {});
 
-    const cancelCallback = () => {
+const cancelCallback = () => {};
 
-		
-	};
+const submitCallback = () => {
+  let deletingId = props.taskItem.id;
 
-    const submitCallback = () => {
+  props.taskList.splice(deletingId, 1);
+};
 
-		let deletingId = props.taskItem.id;
-		
-		props.taskList.splice(deletingId,1);
-		
-		
-	};
-
-    const setHelp = () => {
-      //isHelp.value = !isHelp.value;
-	  props.taskItem.help = !props.taskItem.help;
-	  isHelp.value = props.taskItem.help;
-	  
-    };
-    const setImportant = () => {
-      //isImportant.value = !isImportant.value;
-	  props.taskItem.important = !props.taskItem.important;
-	  isImportant.value = props.taskItem.important;
-    };
-    const setDone = () => {
-      isDone.value = !isDone.value;
-      isTaskNameChecked.value = !isTaskNameChecked.value;
-	  props.taskItem.done = isDone.value;
-    };
-    return {
-      helpButton,
-      importantButton,
-      setHelp,
-      setImportant,
-      doneButton,
-      setDone,
-      taskText,
-      isImportant,
-      isDone,
-      isHelp,
-      isTaskNameChecked,
-      showModal,
-      NModal,
-	  cancelCallback,
-	  submitCallback,
-	  userRole
-	  
-    };
-  },
-  
+const setHelp = () => {
+  //isHelp.value = !isHelp.value;
+  props.taskItem.help = !props.taskItem.help;
+  isHelp.value = props.taskItem.help;
+};
+const setImportant = () => {
+  //isImportant.value = !isImportant.value;
+  props.taskItem.important = !props.taskItem.important;
+  isImportant.value = props.taskItem.important;
+};
+const setDone = () => {
+  isDone.value = !isDone.value;
+  isTaskNameChecked.value = !isTaskNameChecked.value;
+  props.taskItem.done = isDone.value;
 };
 </script>
 
@@ -193,7 +159,6 @@ export default {
     align-items: center;
     font-size: 1.6rem;
     color: var(--theme-font-color);
-	
 
     &.checked {
       text-decoration-line: line-through;
@@ -219,14 +184,11 @@ export default {
       align-items: center;
       justify-content: center;
       transition: 200ms all ease-in-out;
-	  color: var(--theme-font-color);
+      color: var(--theme-font-color);
 
       .icon {
         font-size: 1.6rem;
-        
       }
-
-	  
 
       &.doneClicked,
       &.done:hover {
@@ -248,32 +210,32 @@ export default {
         color: var(--important-color);
       }
 
-	  &.important.canceled{
-		  color: var(--canceled-color);
-		  &:hover{
-			  color: var(--canceled-color);
-		  }
-	  }
+      &.important.canceled {
+        color: var(--canceled-color);
+        &:hover {
+          color: var(--canceled-color);
+        }
+      }
 
-	  &.cancel.canceled{
-		  color: var(--canceled-color);
-		  &:hover{
-			  color: var(--canceled-color);
-		  }
-	  }
+      &.cancel.canceled {
+        color: var(--canceled-color);
+        &:hover {
+          color: var(--canceled-color);
+        }
+      }
 
-	  &.help.canceled{
-		  color: var(--canceled-color);
-		  &:hover{
-			  color: var(--canceled-color);
-		  }
-	  }
-	  &.done.canceled{
-		  color: var(--canceled-color);
-		  &:hover{
-			  color: var(--canceled-color);
-		  }
-	  }
+      &.help.canceled {
+        color: var(--canceled-color);
+        &:hover {
+          color: var(--canceled-color);
+        }
+      }
+      &.done.canceled {
+        color: var(--canceled-color);
+        &:hover {
+          color: var(--canceled-color);
+        }
+      }
     }
   }
 

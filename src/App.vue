@@ -6,36 +6,34 @@
         <router-link to="/about">Login</router-link>
         <router-link to="/help">Pomoc</router-link>
       </nav>
-      <button @click="changeTheme()" class="theme">motyw</button>
+      <button @click="changeTheme" class="theme">motyw</button>
     </header>
     <router-view class="content" />
   </div>
 </template>
 
-<script>
-export default {
-  mounted() {
-    if (localStorage.getItem("theme") === "dark-theme") {
-      this.setTheme("dark-theme");
-    } else {
-      this.setTheme("light-theme");
-    }
-  },
+<script setup>
+import { onMounted } from "vue";
 
-  methods: {
-    changeTheme() {
-      if (localStorage.getItem("theme") === "dark-theme") {
-        this.setTheme("light-theme");
-      } else {
-        this.setTheme("dark-theme");
-      }
-    },
+onMounted(() => {
+  if (localStorage.getItem("theme") === "dark-theme") {
+    setTheme("dark-theme");
+  } else {
+    setTheme("light-theme");
+  }
+});
 
-    setTheme(themeName) {
-      localStorage.setItem("theme", themeName);
-      document.documentElement.className = themeName;
-    },
-  },
+const changeTheme = () => {
+  if (localStorage.getItem("theme") === "dark-theme") {
+    setTheme("light-theme");
+  } else {
+    setTheme("dark-theme");
+  }
+};
+
+const setTheme = (themeName) => {
+  localStorage.setItem("theme", themeName);
+  document.documentElement.className = themeName;
 };
 </script>
 
@@ -49,8 +47,6 @@ export default {
   padding: 0;
   font-family: "Montserrat", sans-serif;
 }
-
-
 
 button {
   cursor: pointer;
@@ -72,10 +68,7 @@ header {
   width: 400px;
   margin-left: auto;
   margin-bottom: 20px;
-  
-  
 }
-
 
 nav {
   padding: 30px;
@@ -90,11 +83,11 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: rgb(0,255,0);
+  color: rgb(0, 255, 0);
 }
 
 nav a:hover {
-  color: rgb(255,0,0);
+  color: rgb(255, 0, 0);
 }
 
 .theme {
@@ -104,7 +97,7 @@ nav a:hover {
   font-weight: bold;
   text-transform: uppercase;
   transition: 300ms all;
-  
+
   background-color: transparent;
   color: #fff;
   letter-spacing: 2px;
@@ -116,9 +109,4 @@ nav a:hover {
   border: 3px solid var(--theme-hover-button-color);
   color: var(--theme-hover-button-text);
 }
-
-
-
-
-
 </style>

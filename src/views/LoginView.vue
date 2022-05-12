@@ -4,10 +4,14 @@
 
     <form @submit.prevent class="wrapper" autocomplete="off">
       <label>Login:</label>
-      <input  v-model="loginInfo.name" type="text" autocomplete="off" autofocus />
+      <input
+        v-model="loginInfo.name"
+        type="text"
+        autocomplete="off"
+        autofocus
+      />
       <label>Hasło:</label>
       <input
-	    
         v-model="loginInfo.password"
         type="text"
         autocomplete="off"
@@ -18,60 +22,55 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { useToast } from "vue-toastification";
-export default {
-  setup() {
-    const toast = useToast();
-    const router = useRouter();
-	
-    const loginInfo = ref({
-      name: '',
-      password: '',
-    });
-    const loginData = ref({
-      worker: {
-        workerName: "pracownik",
-        workerPassword: "pracownik",
-      },
-      prezes: {
-        prezesName: "prezes",
-        prezesPassword: "prezes",
-      },
-    });
 
-    const submitForm = (event, name) => {
-      event.preventDefault();
-      let login = loginValidation(name);
-      if (login) {
-        router.push({ name: "home", params: { login: login } });
-      }
-    };
+const toast = useToast();
+const router = useRouter();
 
-    const loginValidation = (nameParameter) => {
-      const { workerName, workerPassword } = loginData.value.worker;
-      const { prezesName, prezesPassword } = loginData.value.prezes;
-      const { name, password } = nameParameter;
-      if (name === workerName && password === workerPassword) {
-        return "pracownik";
-      } if (name === prezesName && password === prezesPassword) {
-        return "prezes";
-      } else {
-        toast.error("Bad login!", {
-          timeout: 2000,
-        });
-		loginInfo.value.name = '';
-		loginInfo.value.password = '';
-		return;
-
-      }
-    };
-
-    return { submitForm, router, loginInfo, loginData,loginValidation};
+const loginInfo = ref({
+  name: "",
+  password: "",
+});
+const loginData = ref({
+  worker: {
+    workerName: "pracownik",
+    workerPassword: "pracownik",
   },
+  prezes: {
+    prezesName: "prezes",
+    prezesPassword: "prezes",
+  },
+});
+
+const submitForm = (event, name) => {
+  event.preventDefault();
+  let login = loginValidation(name);
+  if (login) {
+    router.push({ name: "home", params: { login: login } });
+  }
+};
+
+const loginValidation = (nameParameter) => {
+  const { workerName, workerPassword } = loginData.value.worker;
+  const { prezesName, prezesPassword } = loginData.value.prezes;
+  const { name, password } = nameParameter;
+  if (name === workerName && password === workerPassword) {
+    return "pracownik";
+  }
+  if (name === prezesName && password === prezesPassword) {
+    return "prezes";
+  } else {
+    toast.error("Bad login!", {
+      timeout: 2000,
+    });
+    loginInfo.value.name = "";
+    loginInfo.value.password = "";
+    return;
+  }
 };
 </script>
 
@@ -82,7 +81,6 @@ h1 {
 }
 
 .wrapper {
-  
   border-radius: 10px;
   margin: 0 auto;
   width: 70%;
@@ -92,7 +90,6 @@ h1 {
   padding: 40px;
   align-items: center;
   background-color: transparent;
-  
 
   label {
     font-size: 1.2rem;
@@ -111,7 +108,6 @@ h1 {
     color: var(--pure-white);
 
     &:focus {
-      
       width: 60%;
       color: var(--pure-white);
     }
@@ -129,7 +125,6 @@ h1 {
     color: var(--theme-font-color);
     text-transform: uppercase;
     transition: 300ms all;
-   
 
     &:hover,
     &:focus {
