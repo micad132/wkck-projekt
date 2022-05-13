@@ -3,7 +3,7 @@
     <h1>Zaloguj się</h1>
 
     <form @submit.prevent class="wrapper" autocomplete="off">
-      <label>Login:</label>
+      <label>Email:</label>
       <input
         v-model="loginInfo.name"
         type="text"
@@ -25,11 +25,12 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-
 import { useToast } from "vue-toastification";
+import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 
 const toast = useToast();
 const router = useRouter();
+const errorMsg = ref('');
 
 const loginInfo = ref({
   name: "",
@@ -47,31 +48,65 @@ const loginData = ref({
 });
 
 const submitForm = (event, name) => {
+
   event.preventDefault();
-  let login = loginValidation(name);
-  if (login) {
-    router.push({ name: "home", params: { login: login } });
-  }
+  const auth = getAuth();
+  console.log(loginInfo.value.name);
+  console.log(loginInfo.value.password);
+  signInWithEmailAndPassword(auth,loginInfo.value.name,loginInfo.value.password)
+  .then(res => {
+	  console.log(auth.currentUser);
+	  //let login = loginValidation(name);
+	  router.push({ name: "home", params: { login: loginInfo.value.name } });
+
+  })
+  .catch(error => {
+	  console.log(error.code);
+	  switch(error.code){
+
+		  case 'auth/invalid-email':
+			  errorMsg.value = 'Niepoprawny email';
+			  break;
+		  case 'auth/user-not-found':
+			  errorMsg.value = 'Nie ma takiego konta';
+			  break;
+		  case 'auth/wrong-password':
+			  errorMsg.value = 'Niepoprawne haslo';
+			  break;
+		  default:
+			  errorMsg.value = "Niepoprawne dane";
+			  break;
+		}
+		// toast.error(errorMsg.value,{
+		// 	timeout: 2000,
+		// });
+		loginInfo.value.name = "";
+        loginInfo.value.password = "";
+  })
+//   let login = loginValidation(name);
+//   if (login) {
+//     router.push({ name: "home", params: { login: login } });
+//   }
 };
 
-const loginValidation = (nameParameter) => {
-  const { workerName, workerPassword } = loginData.value.worker;
-  const { prezesName, prezesPassword } = loginData.value.prezes;
-  const { name, password } = nameParameter;
-  if (name === workerName && password === workerPassword) {
-    return "pracownik";
-  }
-  if (name === prezesName && password === prezesPassword) {
-    return "prezes";
-  } else {
-    toast.error("Bad login!", {
-      timeout: 2000,
-    });
-    loginInfo.value.name = "";
-    loginInfo.value.password = "";
-    return;
-  }
-};
+// const loginValidation = (nameParameter) => {
+//   const { workerName, workerPassword } = loginData.value.worker;
+//   const { prezesName, prezesPassword } = loginData.value.prezes;
+//   const { name, password } = nameParameter;
+//   if (name === workerName && password === workerPassword) {
+//     return "pracownik";
+//   }
+//   if (name === prezesName && password === prezesPassword) {
+//     return "prezes";
+//   } else {
+//     toast.error("Bad login!", {
+//       timeout: 2000,
+//     });
+//     loginInfo.value.name = "";
+//     loginInfo.value.password = "";
+//     return;
+//   }
+// };
 </script>
 
 <style scoped lang="scss">

@@ -35,6 +35,7 @@
       </div>
       <div class="taskWrapper__tasks">
         <TaskItem
+		  @taskArray="fetchTasks"
           v-bind:class="{ marked: isActive }"
           ref="item"
           v-for="(task, index) in taskList"
@@ -71,36 +72,18 @@ import TaskItem from "./TaskItem.vue";
 import { ref, watch, onMounted, computed } from "vue";
 import Toast from "vue-toastification";
 import { useToast } from "vue-toastification";
+import {collection, addDoc, getDocs,updateDoc} from "firebase/firestore"
+import db from '../firebase';
+
+const emit = defineEmits(['size']);
 
 const props = defineProps(["userRole"]);
 
 let taskId = 0;
 const toast = useToast();
 const ifButtons = ref(false);
-//const taskList = ref([]);
-const taskList = ref([
-  {
-    id: 0,
-    name: "sprzatanie",
-    done: false,
-    help: false,
-    important: false,
-  },
-  {
-    id: 1,
-    name: "kawka",
-    done: false,
-    help: false,
-    important: false,
-  },
-  {
-    id: 2,
-    name: "pisanie",
-    done: false,
-    help: false,
-    important: false,
-  },
-]);
+const taskList = ref([]);
+
 const copyofTaskList = ref([]);
 const isActive = ref(false);
 const inputValue = ref(null);
@@ -108,7 +91,7 @@ const item = ref(null);
 let importantCount = 0;
 const userRole = props.userRole;
 
-const addTask = () => {
+const addTask = async () => {
   let listItem = inputValue.value.value;
 
   if (listItem.length < 5 || listItem.length > 20) {
@@ -118,26 +101,28 @@ const addTask = () => {
 	inputValue.value.value = '';
     return;
   }
-  taskList.value.push({
-    id: taskId,
-    name: listItem,
-    done: false,
-    help: false,
-    important: false,
-  });
+  await addDoc(collection(db,'tasks'),{name: listItem,isDone: false,isHelp: false, isImportant: false})
+  
+//   taskList.value.push({
+//     id: taskId,
+//     name: listItem,
+//     done: false,
+//     help: false,
+//     important: false,
+//   });
   inputValue.value.value = "";
-//   context.emit("size", taskList.value.length);
+  emit("size", taskList.value.length);
   toast.success("Task added", {
     timeout: 2000,
   });
   isActive.value = false;
-  ++taskId;
   copyofTaskList.value = [...taskList.value];
+  fetchTasks();
 };
 
 const deleteTasks = () => {
   taskList.value.length = 0;
-  context.emit("size", taskList.value.length);
+  emit("size", taskList.value.length);
 };
 
 const markTasks = () => {
@@ -152,7 +137,26 @@ const changeList = (event) => {
   }
 };
 
+const fetchTasks = async () => {
+
+	
+	const tempTaskList = [];
+	const taskTemp = await getDocs(collection(db,'tasks'));
+	
+	taskTemp.forEach(task => {
+		tempTaskList.push({id:task.id, ...task.data()});
+		
+	})
+	taskList.value = tempTaskList;
+	console.log(taskList.value.length);
+	emit("size", taskList.value.length);
+	
+}
+
 onMounted(() => {
+
+  fetchTasks();
+
   if (taskList.value.length > 0) {
     ifButtons.value = true;
   } else {
@@ -160,8 +164,9 @@ onMounted(() => {
   }
 });
 
-watch(taskList.value, () => {
+watch(taskList, () => {
   console.log("siemanko");
+  console.log(taskList.value.length);
   if (taskList.value.length > 0) {
     ifButtons.value = true;
   } else {

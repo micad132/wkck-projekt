@@ -10,15 +10,18 @@
         Aplikacja rozróżnia dwa rodzaje użytkowników: prezesa i pracownika. Prezes może dodawać zadania, usuwać je, oznaczać jako ważne lub jednocześnie wszystkie usunąć lub oznaczyć jako wykonane.
 		Pracownik natomiast może oznaczać zadania jako wykonane lub jako zadania z którymi potrzebuje pomocy. Zarówno pracownik jak i prezes mogą wyświetlać z listy wszystkie zadania lub te wyłącznie ważne.
 		<br/>
-		<span>Dane dla Prezesa:</span> login: prezes hasło: prezes <br/>
-		<span>Dane dla Pracownika:</span> login: pracownik hasło: pracownik
+		<span>Dane dla Prezesa:</span> email: prezes@prezes.com hasło: prezes <br/>
+		<span>Dane dla Pracownika:</span> email: pracownik@pracownik.com hasło: pracownik
       </li>
     </ul>
   </div>
 </template>
 
 <script setup>
+import { getAuth } from "firebase/auth";
 
+const auth = getAuth();
+const loggedUser = auth.currentUser;
 </script>
 
 <style scoped lang="scss">

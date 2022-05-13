@@ -15,12 +15,15 @@
 <script setup>
 import { onMounted } from "vue";
 
+
 onMounted(() => {
+  
   if (localStorage.getItem("theme") === "dark-theme") {
     setTheme("dark-theme");
   } else {
     setTheme("light-theme");
   }
+  
 });
 
 const changeTheme = () => {
@@ -35,7 +38,9 @@ const setTheme = (themeName) => {
   localStorage.setItem("theme", themeName);
   document.documentElement.className = themeName;
 };
+
 </script>
+
 
 <style lang="css">
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");

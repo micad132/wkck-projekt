@@ -93,7 +93,7 @@
       content="Czy chcesz usunąć to zadanie?"
       positive-text="Usuń"
       negative-text="Anuluj"
-      @positive-click="submitCallback"
+      @positive-click="submitCallback(taskItem.id)"
       @negative-click="cancelCallback"
     />
   </div>
@@ -102,9 +102,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { NModal } from "naive-ui";
+import {collection, deleteDoc,doc,updateDoc,getDocs } from "firebase/firestore"
+import db from '../firebase';
 
 const props = defineProps(["taskItem", "taskList", "userRole"]);
-
+const emit = defineEmits(['size','taskArray']);
 const showModal = ref(false);
 const helpButton = ref(null);
 const importantButton = ref(null);
@@ -120,16 +122,21 @@ onMounted(() => {});
 
 const cancelCallback = () => {};
 
-const submitCallback = () => {
-  let deletingId = props.taskItem.id;
+const submitCallback = async (id) => {
 
-  props.taskList.splice(deletingId, 1);
+   await deleteDoc(doc(db,'tasks',id));
+   fetchTasks();
+   
+
 };
 
-const setHelp = () => {
+const setHelp = async () => {
   //isHelp.value = !isHelp.value;
   props.taskItem.help = !props.taskItem.help;
   isHelp.value = props.taskItem.help;
+  await updateDoc(doc(db,'tasks','Fg3PxVhP9qfym7UL0TDb'), {
+	  isHelp: !isHelp
+  })
 };
 const setImportant = () => {
   //isImportant.value = !isImportant.value;
@@ -141,6 +148,23 @@ const setDone = () => {
   isTaskNameChecked.value = !isTaskNameChecked.value;
   props.taskItem.done = isDone.value;
 };
+
+const fetchTasks = async () => {
+
+	
+	const tempTaskList = [];
+	const taskTemp = await getDocs(collection(db,'tasks'));
+	
+	taskTemp.forEach(task => {
+		tempTaskList.push({id:task.id, ...task.data()});
+		
+	})
+	props.taskList.value = tempTaskList;
+	console.log(props.taskList.value);
+	emit("size", props.taskList.value.length);
+	emit('taskArray',props.taskList.value);
+}
+
 </script>
 
 <style lang="scss" scoped>

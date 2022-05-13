@@ -1,9 +1,12 @@
 <template>
   <div class="home">
     <h1 class="home__logo">taskList</h1>
-    <p v-if="loginName" class="home__login">
-      Jesteś zalogowany jako <span>{{ loginName }}</span>
+    <p v-if="loggedUser" class="home__login">
+      Jesteś zalogowany jako <span>{{ whoIsLogged }}</span>
     </p>
+	<p v-else class="home__login">
+		Nie jesteś zalogowany
+	</p>
     <p class="home__tasks">Lista obowiązków w firmie:</p>
     <div class="home__counts">
       <div class="home__counts__count" v-if="taskAmount">{{ taskAmount }}</div>
@@ -18,19 +21,30 @@
 import TaskWrapper from "../components/TaskWrapper.vue";
 import { ref, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { getAuth } from "firebase/auth";
 
+const auth = getAuth();
+const loggedUser = auth.currentUser;
 const route = useRoute();
 const taskAmount = ref(null);
+const whoIsLogged = ref('');
 const userRole = {
   isPrezes: false,
   isPracownik: false,
+  isNotLogged: false,
 };
 let loginName = route.params.login;
 
-if (loginName === "prezes") {
-  userRole.isPrezes = true;
-} else if (loginName === "pracownik") {
-  userRole.isPracownik = true;
+if (loggedUser) {
+  if (loggedUser.email === "prezes@prezes.com") {
+    userRole.isPrezes = true;
+	whoIsLogged.value = 'prezes';
+  } else if (loggedUser.email === "pracownik@pracownik.com") {
+    userRole.isPracownik = true;
+	whoIsLogged.value = 'pracownik';
+  } else {
+    userRole.isNotLogged = true;
+  }
 }
 
 const addTask = (val) => {
