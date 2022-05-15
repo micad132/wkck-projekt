@@ -14,9 +14,12 @@
 
 <script setup>
 import { onMounted } from "vue";
-
+import {getAuth, onAuthStateChanged, signInWithEmailAndPassword,signOut} from 'firebase/auth';
 
 onMounted(() => {
+
+  let auth = getAuth();
+  signOut(auth);
   
   if (localStorage.getItem("theme") === "dark-theme") {
     setTheme("dark-theme");

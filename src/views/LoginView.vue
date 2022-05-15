@@ -18,20 +18,23 @@
         style="-webkit-text-security: disc"
       />
       <button @click="submitForm($event, loginInfo)">Zaloguj</button>
+	  <button v-if="isLogged" @click="logoutHandler">Wyloguj sie</button>
     </form>
+	
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
+import {getAuth, onAuthStateChanged, signInWithEmailAndPassword,signOut} from 'firebase/auth';
 
 const toast = useToast();
 const router = useRouter();
 const errorMsg = ref('');
-
+let auth;
+const isLogged = ref(false);
 const loginInfo = ref({
   name: "",
   password: "",
@@ -47,10 +50,22 @@ const loginData = ref({
   },
 });
 
+onMounted(()=> {
+	auth = getAuth();
+	onAuthStateChanged(auth,(user)=> {
+		if(user){
+			isLogged.value = true;
+		}
+		else{
+			isLogged.value = false;
+		}
+	})
+})
+
 const submitForm = (event, name) => {
 
   event.preventDefault();
-  const auth = getAuth();
+  
   console.log(loginInfo.value.name);
   console.log(loginInfo.value.password);
   signInWithEmailAndPassword(auth,loginInfo.value.name,loginInfo.value.password)
@@ -83,30 +98,17 @@ const submitForm = (event, name) => {
 		loginInfo.value.name = "";
         loginInfo.value.password = "";
   })
-//   let login = loginValidation(name);
-//   if (login) {
-//     router.push({ name: "home", params: { login: login } });
-//   }
+
 };
 
-// const loginValidation = (nameParameter) => {
-//   const { workerName, workerPassword } = loginData.value.worker;
-//   const { prezesName, prezesPassword } = loginData.value.prezes;
-//   const { name, password } = nameParameter;
-//   if (name === workerName && password === workerPassword) {
-//     return "pracownik";
-//   }
-//   if (name === prezesName && password === prezesPassword) {
-//     return "prezes";
-//   } else {
-//     toast.error("Bad login!", {
-//       timeout: 2000,
-//     });
-//     loginInfo.value.name = "";
-//     loginInfo.value.password = "";
-//     return;
-//   }
-// };
+
+const logoutHandler = () => {
+	signOut(auth).then(()=>{
+		router.push({ name: "home" });
+	})
+}
+
+
 </script>
 
 <style scoped lang="scss">
@@ -149,7 +151,7 @@ h1 {
   }
 
   button {
-    margin-top: 10px;
+    margin-top: 20px;
     width: 50%;
     padding: 1rem 0;
     border: 0;

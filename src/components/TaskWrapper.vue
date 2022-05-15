@@ -72,7 +72,7 @@ import TaskItem from "./TaskItem.vue";
 import { ref, watch, onMounted, computed } from "vue";
 import Toast from "vue-toastification";
 import { useToast } from "vue-toastification";
-import {collection, addDoc, getDocs,updateDoc} from "firebase/firestore"
+import {collection, addDoc, getDocs,updateDoc, deleteDoc,doc} from "firebase/firestore"
 import db from '../firebase';
 
 const emit = defineEmits(['size']);
@@ -103,16 +103,10 @@ const addTask = async () => {
   }
   await addDoc(collection(db,'tasks'),{name: listItem,isDone: false,isHelp: false, isImportant: false})
   
-//   taskList.value.push({
-//     id: taskId,
-//     name: listItem,
-//     done: false,
-//     help: false,
-//     important: false,
-//   });
+
   inputValue.value.value = "";
   emit("size", taskList.value.length);
-  toast.success("Task added", {
+  toast.success("Dodano zadanie!", {
     timeout: 2000,
   });
   isActive.value = false;
@@ -120,9 +114,15 @@ const addTask = async () => {
   fetchTasks();
 };
 
-const deleteTasks = () => {
-  taskList.value.length = 0;
+const deleteTasks =  () => {
+//   taskList.value.length = 0;
+
+  taskList.value.forEach(task => {
+	   deleteDoc(doc(db,'tasks',task.id))
+  })
+ 
   emit("size", taskList.value.length);
+  fetchTasks();
 };
 
 const markTasks = () => {

@@ -3,7 +3,7 @@
     <p
       ref="taskText"
       :class="[
-        isTaskNameChecked ? 'checked' : '',
+        isDone ? 'checked' : '',
         'taskWrapper__tasks__task__name',
       ]"
     >
@@ -13,7 +13,7 @@
       <button
         v-if="userRole.isPracownik"
         ref="doneButton"
-        @click="setDone()"
+        @click="setDone(taskItem.id)"
         :class="[
           isDone ? 'doneClicked' : '',
           'taskWrapper__tasks__task__buttons__button done',
@@ -48,7 +48,7 @@
       <button
         v-if="userRole.isPracownik"
         ref="helpButton"
-        @click="setHelp()"
+        @click="setHelp(taskItem.id)"
         :class="[
           isHelp ? 'helpClicked' : '',
           'taskWrapper__tasks__task__buttons__button help',
@@ -69,7 +69,7 @@
       <button
         v-if="userRole.isPrezes"
         ref="importantButton"
-        @click="setImportant()"
+        @click="setImportant(taskItem.id)"
         :class="[
           isImportant ? 'importantClicked' : '',
           'taskWrapper__tasks__task__buttons__button important',
@@ -80,7 +80,6 @@
       <button
         v-else
         ref="importantButton"
-        @click="setImportant()"
         class="taskWrapper__tasks__task__buttons__button important canceled"
       >
         <fa class="icon" icon="circle-exclamation" />
@@ -102,7 +101,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { NModal } from "naive-ui";
-import {collection, deleteDoc,doc,updateDoc,getDocs } from "firebase/firestore"
+import {collection, deleteDoc,doc,updateDoc,getDocs} from "firebase/firestore"
 import db from '../firebase';
 
 const props = defineProps(["taskItem", "taskList", "userRole"]);
@@ -118,7 +117,12 @@ const isHelp = ref(null);
 const isTaskNameChecked = ref(null);
 const userRole = props.userRole;
 
-onMounted(() => {});
+onMounted(() => {
+	isHelp.value = props.taskItem.isHelp;
+	isImportant.value = props.taskItem.isImportant;
+	isDone.value = props.taskItem.isDone;
+	
+});
 
 const cancelCallback = () => {};
 
@@ -130,23 +134,35 @@ const submitCallback = async (id) => {
 
 };
 
-const setHelp = async () => {
+const setHelp = async (id) => {
   //isHelp.value = !isHelp.value;
-  props.taskItem.help = !props.taskItem.help;
-  isHelp.value = props.taskItem.help;
-  await updateDoc(doc(db,'tasks','Fg3PxVhP9qfym7UL0TDb'), {
-	  isHelp: !isHelp
+  props.taskItem.isHelp = !props.taskItem.isHelp;
+  
+  await updateDoc(doc(db,'tasks',id), {
+	  isHelp: props.taskItem.isHelp
+  })
+  isHelp.value = props.taskItem.isHelp;
+  console.log(isHelp.value);
+  
+};
+const setImportant = async (id) => {
+  //isImportant.value = !isImportant.value;
+  props.taskItem.isImportant = !props.taskItem.isImportant;
+  isImportant.value = props.taskItem.isImportant;
+  await updateDoc(doc(db,'tasks',id), {
+	  isImportant: props.taskItem.isImportant
   })
 };
-const setImportant = () => {
-  //isImportant.value = !isImportant.value;
-  props.taskItem.important = !props.taskItem.important;
-  isImportant.value = props.taskItem.important;
-};
-const setDone = () => {
-  isDone.value = !isDone.value;
+const setDone = async (id) => {
+//   isDone.value = !isDone.value;
+  
+  props.taskItem.isDone = !props.taskItem.isDone;
+  await updateDoc(doc(db,'tasks',id), {
+	  isDone: props.taskItem.isDone
+  })
+  isDone.value = props.taskItem.isDone;
   isTaskNameChecked.value = !isTaskNameChecked.value;
-  props.taskItem.done = isDone.value;
+  
 };
 
 const fetchTasks = async () => {
