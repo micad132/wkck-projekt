@@ -80,7 +80,7 @@
       <button
         v-else
         ref="importantButton"
-        class="taskWrapper__tasks__task__buttons__button important canceled"
+        :class="[isImportant ? 'importantClicked' : '' ,'taskWrapper__tasks__task__buttons__button important canceled']"
       >
         <fa class="icon" icon="circle-exclamation" />
       </button>
@@ -99,13 +99,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted,watch } from "vue";
 import { NModal } from "naive-ui";
 import {collection, deleteDoc,doc,updateDoc,getDocs} from "firebase/firestore"
 import db from '../firebase';
 
 const props = defineProps(["taskItem", "taskList", "userRole"]);
-const emit = defineEmits(['size','taskArray']);
+const emit = defineEmits(['size','taskArray','importantCount']);
 const showModal = ref(false);
 const helpButton = ref(null);
 const importantButton = ref(null);
@@ -116,6 +116,9 @@ const isDone = ref(null);
 const isHelp = ref(null);
 const isTaskNameChecked = ref(null);
 const userRole = props.userRole;
+const currentTask = ref(props.taskItem);
+const tempTaskList = [];
+let count = 0;
 
 onMounted(() => {
 	isHelp.value = props.taskItem.isHelp;
@@ -129,6 +132,8 @@ const cancelCallback = () => {};
 const submitCallback = async (id) => {
 
    await deleteDoc(doc(db,'tasks',id));
+   count = props.taskList.reduce((total,task)=> total + task.isImportant,0)
+	emit('importantCount',count);
    fetchTasks();
    
 
@@ -152,6 +157,8 @@ const setImportant = async (id) => {
   await updateDoc(doc(db,'tasks',id), {
 	  isImportant: props.taskItem.isImportant
   })
+  count = props.taskList.reduce((total,task)=> total + task.isImportant,0)
+  emit('importantCount',count);
 };
 const setDone = async (id) => {
 //   isDone.value = !isDone.value;
@@ -168,7 +175,7 @@ const setDone = async (id) => {
 const fetchTasks = async () => {
 
 	
-	const tempTaskList = [];
+	
 	const taskTemp = await getDocs(collection(db,'tasks'));
 	
 	taskTemp.forEach(task => {
@@ -179,7 +186,16 @@ const fetchTasks = async () => {
 	console.log(props.taskList.value);
 	emit("size", props.taskList.value.length);
 	emit('taskArray',props.taskList.value);
+	count = props.taskList.reduce((total,task)=> total + task.isImportant,0)
+	emit('importantCount',count);
 }
+
+watch([currentTask,props.taskList],()=> {
+	console.log('zmiana');
+	
+	count = props.taskList.reduce((total,task)=> total + task.isImportant,0)
+	emit('importantCount',count);
+});
 
 </script>
 
@@ -251,8 +267,10 @@ const fetchTasks = async () => {
       }
 
       &.important.canceled {
+		  
         color: var(--canceled-color);
         &:hover {
+			
           color: var(--canceled-color);
         }
       }

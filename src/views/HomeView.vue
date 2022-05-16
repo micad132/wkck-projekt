@@ -11,9 +11,10 @@
     <div class="home__counts">
       <div class="home__counts__count" v-if="taskAmount">{{ taskAmount }}</div>
       <div class="home__counts__count" v-else>0</div>
-      <div class="home__counts__count important">0</div>
+      <div v-if="importantAmount" class="home__counts__count important">{{importantAmount}}</div>
+	  <div v-else class="home__counts__count important">{{beginImportantAmount}}</div>
     </div>
-    <TaskWrapper @size="addTask" :userRole="userRole" />
+    <TaskWrapper @size="addTask" :userRole="userRole" @importantCount="countImportant" />
   </div>
 </template>
 
@@ -28,6 +29,9 @@ const loggedUser = auth.currentUser;
 const route = useRoute();
 const taskAmount = ref(null);
 const whoIsLogged = ref('');
+const importantAmount = ref(0);
+const beginImportantAmount = ref(0);
+let count = 0;
 const userRole = {
   isPrezes: false,
   isPracownik: false,
@@ -50,6 +54,16 @@ if (loggedUser) {
 const addTask = (val) => {
   taskAmount.value = val;
 };
+
+onMounted(()=> {
+	addTask();
+})
+
+const countImportant = (val) => {
+	
+	
+	importantAmount.value = val;
+}
 
 watch(taskAmount, () => {});
 </script>

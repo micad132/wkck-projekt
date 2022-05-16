@@ -43,6 +43,7 @@
           :taskItem="task"
           :taskList="taskList"
           :userRole="userRole"
+		  @importantCount="countImportant"
         />
       </div>
     </div>
@@ -72,12 +73,12 @@ import TaskItem from "./TaskItem.vue";
 import { ref, watch, onMounted, computed } from "vue";
 import Toast from "vue-toastification";
 import { useToast } from "vue-toastification";
-import {collection, addDoc, getDocs,updateDoc, deleteDoc,doc} from "firebase/firestore"
+import {collection, addDoc, getDocs,updateDoc, deleteDoc,doc,query,where} from "firebase/firestore"
 import db from '../firebase';
 
 const emit = defineEmits(['size']);
 
-const props = defineProps(["userRole"]);
+const props = defineProps(["userRole",'importantCount']);
 
 let taskId = 0;
 const toast = useToast();
@@ -88,8 +89,8 @@ const copyofTaskList = ref([]);
 const isActive = ref(false);
 const inputValue = ref(null);
 const item = ref(null);
-let importantCount = 0;
 const userRole = props.userRole;
+let count = 0;
 
 const addTask = async () => {
   let listItem = inputValue.value.value;
@@ -114,8 +115,13 @@ const addTask = async () => {
   fetchTasks();
 };
 
+
+const countImportant = (count) => {
+	emit('importantCount',count);
+}
+
 const deleteTasks =  () => {
-//   taskList.value.length = 0;
+
 
   taskList.value.forEach(task => {
 	   deleteDoc(doc(db,'tasks',task.id))
@@ -131,9 +137,12 @@ const markTasks = () => {
 
 const changeList = (event) => {
   if (event.target.value == "important") {
-    taskList.value = filteredTaskList();
+ 
+	
+	fetchImportantTask();
   } else {
-    taskList.value = copyofTaskList.value;
+	 
+    fetchTasks();
   }
 };
 
@@ -148,9 +157,21 @@ const fetchTasks = async () => {
 		
 	})
 	taskList.value = tempTaskList;
-	console.log(taskList.value.length);
+	count = taskList.value.reduce((total,task)=> total + task.isImportant,0)
 	emit("size", taskList.value.length);
-	
+	emit('importantCount',count);
+}
+
+const fetchImportantTask = async () => {
+
+	const tempImportantTaskList = [];
+	const tasksImportant = await getDocs(query(collection(db,'tasks'),where("isImportant","==",true)));
+	tasksImportant.forEach( task => {
+		tempImportantTaskList.push({id:task.id,...task.data()});
+	})
+	console.log(tasksImportant);
+	taskList.value = tempImportantTaskList;
+	emit("size",taskList.value.length);
 }
 
 onMounted(() => {
@@ -165,23 +186,20 @@ onMounted(() => {
 });
 
 watch(taskList, () => {
-  console.log("siemanko");
-  console.log(taskList.value.length);
+  
+  console.log(count);
   if (taskList.value.length > 0) {
     ifButtons.value = true;
   } else {
     ifButtons.value = false;
     taskId = 0;
   }
-
-  //   let  newArr = filteredTaskList();
-  //   importantCount = newArr.length;
-  //   console.log(importantCount);
+  
+  
 });
 
-const filteredTaskList = () => {
-  return taskList.value.filter((task) => task.important == true);
-};
+
+
 </script>
 
 <style lang="scss" scoped>
