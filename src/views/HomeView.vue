@@ -70,7 +70,7 @@ watch(taskAmount, () => {});
 
 <style lang="scss" scoped>
 .home {
-  margin-top: -5rem;
+  margin-top: 4rem;
   h1,
   &__tasks,
   &__login {
@@ -79,12 +79,12 @@ watch(taskAmount, () => {});
   }
 
   h1 {
-    font-size: 40px;
+    font-size: 4rem;
     font-style: italic;
     color: var(--pure-white);
   }
   &__login {
-    font-size: 22px;
+    font-size: 2.2rem;
 
     & > span {
       font-weight: bold;
@@ -93,7 +93,7 @@ watch(taskAmount, () => {});
   }
 
   &__tasks {
-    font-size: 20px;
+    font-size: 2rem;
   }
 
   &__counts {
@@ -102,13 +102,13 @@ watch(taskAmount, () => {});
     align-items: center;
     gap: 2rem;
     width: 30%;
-    max-width: 300px;
+    max-width: 30rem;
     margin: 0.5rem auto;
     padding: 0.5rem;
 
     &__count {
       border: 3px solid var(--theme-button-border);
-      padding: 1.2rem 1.4rem;
+      padding: 2rem 3rem;
       color: var(--pure-white);
       font-weight: bold;
 
@@ -119,5 +119,12 @@ watch(taskAmount, () => {});
       }
     }
   }
+}
+
+
+@media (max-width: 700px){
+	.wrapper{
+		width: 80%;
+	}
 }
 </style>

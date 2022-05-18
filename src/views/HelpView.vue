@@ -27,11 +27,13 @@ const loggedUser = auth.currentUser;
 <style scoped lang="scss">
 
   .wrapper {
+	
     background-color: transparent;
     margin: 0 auto;
     width: 70%;
-    max-width: 1200px;
-    padding: 40px;
+    max-width: 120rem;
+    padding: 4rem;
+	margin-top: 17rem;
     
     border: 3px solid var(--theme-button-border);
 
@@ -41,16 +43,16 @@ const loggedUser = auth.currentUser;
 
     ul {
       li {
-        margin-top: 20px;
-        font-size: 20px;
+        margin-top: 2rem;
+        font-size: 2rem;
         text-align: justify;
         color: var(--theme-font-color);
         font-weight: 600;
 
 		span{
-		   font-size: 22px;
+		   font-size: 2.2rem;
 		   color: var(--pure-red);
-		   margin-right: 10px;
+		   margin-right: 1rem;
 		}
 		
       }

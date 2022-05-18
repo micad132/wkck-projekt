@@ -203,7 +203,7 @@ watch([currentTask,props.taskList],()=> {
 .taskWrapper__tasks__task {
   display: flex;
   height: 70px;
-  padding: 0 1rem;
+  padding: 0rem 1rem;
   margin-top: 1rem;
 
   &__name {
@@ -211,9 +211,10 @@ watch([currentTask,props.taskList],()=> {
     border: 3px solid var(--theme-button-border);
     text-align: left;
     padding-left: 1rem;
+	padding: 1rem 0rem 1rem 1rem;
     display: flex;
     align-items: center;
-    font-size: 1.6rem;
+    font-size: 2rem;
     color: var(--theme-font-color);
 
     &.checked {
@@ -231,7 +232,7 @@ watch([currentTask,props.taskList],()=> {
     &__button {
       width: 20%;
       height: 100%;
-      padding: 1rem;
+      padding: 2rem;
       background-color: transparent;
       border: 0;
       outline: 0;
@@ -303,5 +304,13 @@ watch([currentTask,props.taskList],()=> {
       text-decoration-color: var(--pure-white);
     }
   }
+}
+
+@media (max-width: 1000px){
+
+
+.taskWrapper__tasks__task{
+	padding: 1rem;
+}
 }
 </style>

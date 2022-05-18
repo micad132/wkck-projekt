@@ -56,6 +56,11 @@ const setTheme = (themeName) => {
   font-family: "Montserrat", sans-serif;
 }
 
+
+html{
+	font-size: 10px;
+}
+
 button {
   cursor: pointer;
 }
@@ -73,9 +78,13 @@ button {
 }
 
 header {
-  width: 400px;
+  width: 40rem;
   margin-left: auto;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  border: 2px solid red;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 nav {
@@ -84,7 +93,7 @@ nav {
 
 nav a {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 2rem;
   color: var(--theme-font-color);
   text-decoration: none;
   margin-right: 20px;
@@ -99,7 +108,7 @@ nav a:hover {
 }
 
 .theme {
-  padding: 1rem 3rem;
+  padding: 1.5rem 5rem;
   border: 3px solid var(--theme-button-border);
 
   font-weight: bold;
@@ -109,7 +118,7 @@ nav a:hover {
   background-color: transparent;
   color: #fff;
   letter-spacing: 2px;
-  font-size: 1em;
+  font-size: 1.5rem;
 }
 
 .theme:hover {
@@ -117,4 +126,53 @@ nav a:hover {
   border: 3px solid var(--theme-hover-button-color);
   color: var(--theme-hover-button-text);
 }
+
+
+@media (max-width: 1000px){
+
+
+	html{
+		font-size: 7px;
+	}
+	
+
+	nav a{
+		font-size: 1.6rem;
+	}
+
+	
+}
+
+@media (max-width: 750px){
+	header{
+		width: 250px;
+		
+
+	}
+
+	nav a{
+		font-size: 1.5rem;
+		padding: 0;
+		margin: 0 1rem;
+	}
+}
+
+
+@media (max-width: 700px){
+	
+
+	header{
+		width: 200px;
+	}
+	nav{
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		
+	}
+	nav a{
+		font-size: 2rem;
+	}
+}
+
 </style>

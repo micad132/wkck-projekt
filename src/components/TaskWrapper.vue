@@ -11,7 +11,7 @@
         />
         <div class="taskWrapper__mainoperations__buttons">
           <button
-            class="taskWrapper__mainoperations__buttons__button"
+            class="taskWrapper__mainoperations__buttons__button addtask"
             @click="addTask"
             v-if="userRole.isPrezes"
           >
@@ -208,11 +208,12 @@ watch(taskList, () => {
   width: 60%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 3rem 0;
 
   .taskWrapper {
     height: 100%;
     width: 100%;
+	border: 2px solid red;
 
     &__mainoperations {
       display: flex;
@@ -224,7 +225,7 @@ watch(taskList, () => {
         border: 3px solid var(--theme-button-border);
         background-color: transparent;
         outline: 0;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         color: var(--pure-white);
       }
 
@@ -234,10 +235,10 @@ watch(taskList, () => {
         justify-content: space-evenly;
 
         &__button {
-          padding: 1rem;
+          padding: 2rem;
           border: 3px solid var(--theme-button-border);
           background-color: transparent;
-          font-size: 1.2rem;
+          font-size: 1.6rem;
           font-weight: bold;
           transition: 200ms all ease-in-out;
           color: var(--theme-font-color);
@@ -253,6 +254,14 @@ watch(taskList, () => {
               color: var(--canceled-color);
             }
           }
+
+		  &.select{
+			  padding: 2rem 3rem;
+		  }
+
+		  &.addtask{
+			  padding: 2rem 4rem;
+		  }
         }
       }
     }
@@ -272,16 +281,16 @@ watch(taskList, () => {
   &__buttons {
     width: 100%;
     padding: 1rem;
-    margin-top: 2rem;
+    margin-top: 4rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     &__button {
       border: 3px solid var(--theme-button-border);
-      padding: 0.8rem 2rem;
+      padding: 1.8rem 2rem;
       width: 45%;
-      font-size: 1.4rem;
+      font-size: 1.8rem;
       transition: 200ms all ease-in-out;
       text-transform: uppercase;
       background-color: transparent;
