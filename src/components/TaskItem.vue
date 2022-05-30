@@ -119,11 +119,13 @@ const userRole = props.userRole;
 const currentTask = ref(props.taskItem);
 const tempTaskList = [];
 let count = 0;
-
-onMounted(() => {
 	isHelp.value = props.taskItem.isHelp;
 	isImportant.value = props.taskItem.isImportant;
 	isDone.value = props.taskItem.isDone;
+	console.log(props.taskItem.name);
+	console.log(isDone.value);
+
+onMounted(() => {
 	
 });
 

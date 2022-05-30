@@ -24,12 +24,22 @@
             Zła rola
           </button>
           <select
+		  	v-if="userRole.isPracownik || userRole.isPrezes"
             name="taskWrapper__mainoperations__buttons__select"
             class="taskWrapper__mainoperations__buttons__button select"
             @change="changeList($event)"
           >
             <option value="all">WSZYSTKIE</option>
             <option value="important">WAŻNE</option>
+          </select>
+		  <select
+		  	v-else
+            name="taskWrapper__mainoperations__buttons__select"
+            class="taskWrapper__mainoperations__buttons__button select canceled"
+            
+          >
+            <option value="wrongRole">Zła rola</option>
+            
           </select>
         </div>
       </div>
@@ -50,7 +60,7 @@
     <div v-if="ifButtons" class="wrapper__buttons">
       <button
         v-if="userRole.isPrezes"
-        @click="markTasks()"
+        @click="markTasks"
         class="wrapper__buttons__button"
       >
         odznacz wszystko
@@ -132,7 +142,20 @@ const deleteTasks =  () => {
 };
 
 const markTasks = () => {
+  
+  const taskListCopy = [];
   isActive.value = !isActive.value;
+  taskList.value.forEach( task => {
+	  updateDoc(doc(db,'tasks',task.id),{
+		  isDone: isActive.value
+	  })
+	  task.isDone = !isActive.value;
+	  taskListCopy.push({...task});
+	  console.log(task);
+	  
+  })
+  taskList.value = taskListCopy;
+  //fetchTasks();
 };
 
 const changeList = (event) => {
@@ -213,7 +236,7 @@ watch(taskList, () => {
   .taskWrapper {
     height: 100%;
     width: 100%;
-	border: 2px solid red;
+	
 
     &__mainoperations {
       display: flex;

@@ -81,7 +81,7 @@ header {
   width: 40rem;
   margin-left: auto;
   margin-bottom: 2rem;
-  border: 2px solid red;
+  
   position: absolute;
   top: 0;
   right: 0;

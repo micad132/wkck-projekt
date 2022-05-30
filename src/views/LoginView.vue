@@ -132,7 +132,7 @@ const logoutHandler = () => {
     align-items: center;
     background-color: transparent;
     
-    border: 2px solid red;
+    
 
     label {
       font-size: 1.6rem;
