@@ -70,7 +70,7 @@ watch(taskAmount, () => {});
 
 <style lang="scss" scoped>
 .home {
-  margin-top: 4rem;
+  margin-top: 5rem;
   h1,
   &__tasks,
   &__login {
@@ -126,5 +126,11 @@ watch(taskAmount, () => {});
 	.wrapper{
 		width: 80%;
 	}
+}
+
+@media (max-height: 600px){
+  .home{
+    margin-top: 2rem;
+  }
 }
 </style>

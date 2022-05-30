@@ -77,6 +77,8 @@ button {
   overflow: hidden;
 }
 
+
+
 header {
   width: 40rem;
   margin-left: auto;
@@ -173,6 +175,16 @@ nav a:hover {
 	nav a{
 		font-size: 2rem;
 	}
+}
+
+@media (max-height: 800px){
+  html{
+    font-size: 8px;
+  }
+    header{
+      width: 45rem;
+    }
+  
 }
 
 </style>
